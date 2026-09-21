@@ -74,3 +74,30 @@ def test_paper_execution_short_order_and_pnl():
         engine.portfolio, "cash", getattr(engine.portfolio, "balance", 0.0)
     )
     assert current_cash == 10010.0
+
+
+def test_paper_execution_slippage_and_fees():
+    from src.execution.broker import PaperBroker
+    from src.execution.engine import ExecutionEngine
+    from src.domain.enums import OrderDirection, OrderType
+    from src.domain.models import Order
+
+    # Slippage de 0.5 por ponto e R$ 1.00 de taxa por contrato
+    broker = PaperBroker(initial_balance=10000.0, slippage=0.5, fee_per_contract=1.0)
+    engine = ExecutionEngine(initial_balance=10000.0, broker=broker)
+
+    order = Order(
+        symbol="WIN",
+        side=OrderDirection.BUY,
+        order_type=OrderType.MARKET,
+        quantity=2.0,
+    )
+    executed = engine.process_order(order, current_price=100.0)
+
+    # Preco executado = 100.0 + 0.5 (slippage) = 100.5
+    assert executed.price == 100.5
+    assert engine.portfolio.positions["WIN"].entry_price == 100.5
+
+    # Saldo = 10000 - (2 contratos * R$ 1.00 taxa) = 9998.0
+    current_cash = getattr(engine.portfolio, "cash", getattr(engine.portfolio, "balance", 0.0))
+    assert current_cash == 9998.0
