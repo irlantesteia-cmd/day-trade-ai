@@ -1,5 +1,6 @@
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
-from src.domain.enums import SignalType
+from src.domain.enums import SignalDirection, Timeframe
 from src.domain.models import Candle, Signal
 
 
@@ -9,6 +10,7 @@ class MovingAverageCrossoverStrategy:
         fast_key: str = "sma_fast",
         slow_key: str = "sma_slow",
         name: str = "MA_CROSSOVER",
+        **kwargs,
     ):
         self.fast_key = fast_key
         self.slow_key = slow_key
@@ -21,60 +23,48 @@ class MovingAverageCrossoverStrategy:
         feature_results: Optional[Dict[str, Any]] = None,
     ) -> Signal:
         if not candles:
-            raise ValueError("A lista de candles não pode estar vazia.")
+            return Signal(
+                symbol="UNKNOWN",
+                timeframe=Timeframe.M5,
+                timestamp=datetime.now(timezone.utc),
+                direction=SignalDirection.NEUTRAL,
+                strength=0.0,
+                strategy_name=self.name,
+            )
 
         last_candle = candles[-1]
+        symbol = last_candle.symbol
+        timeframe = last_candle.timeframe
+        timestamp = last_candle.timestamp
+        indicators = indicator_results or {}
 
-        if (
-            not indicator_results
-            or self.fast_key not in indicator_results
-            or self.slow_key not in indicator_results
-        ):
+        sma_fast = indicators.get(self.fast_key, indicators.get("sma_fast", 0.0))
+        sma_slow = indicators.get(self.slow_key, indicators.get("sma_slow", 0.0))
+
+        if sma_fast > sma_slow and sma_slow > 0:
             return Signal(
-                symbol=last_candle.symbol,
-                timeframe=last_candle.timeframe,
-                timestamp=last_candle.timestamp,
-                direction=SignalType.NEUTRAL,
-                strategy_id=self.name,
-                strategy_version="1.0.0",
-                confidence=0.0,
-                metadata={"reason": "Indicadores ausentes"},
+                symbol=symbol,
+                timeframe=timeframe,
+                timestamp=timestamp,
+                direction=SignalDirection.BUY,
+                strength=0.8,
+                strategy_name=self.name,
             )
-
-        fast_val = indicator_results.get(self.fast_key)
-        slow_val = indicator_results.get(self.slow_key)
-
-        if fast_val is None or slow_val is None:
+        elif sma_fast < sma_slow and sma_slow > 0:
             return Signal(
-                symbol=last_candle.symbol,
-                timeframe=last_candle.timeframe,
-                timestamp=last_candle.timestamp,
-                direction=SignalType.NEUTRAL,
-                strategy_id=self.name,
-                strategy_version="1.0.0",
-                confidence=0.0,
-                metadata={"reason": "Valores de indicadores nulos"},
+                symbol=symbol,
+                timeframe=timeframe,
+                timestamp=timestamp,
+                direction=SignalDirection.SELL,
+                strength=0.8,
+                strategy_name=self.name,
             )
-
-        if fast_val > slow_val:
-            sig_type = SignalType.BUY
-            diff_pct = abs(fast_val - slow_val) / slow_val
-            confidence = min(1.0, max(0.5, 0.5 + diff_pct * 10))
-        elif fast_val < slow_val:
-            sig_type = SignalType.SELL
-            diff_pct = abs(fast_val - slow_val) / slow_val
-            confidence = min(1.0, max(0.5, 0.5 + diff_pct * 10))
-        else:
-            sig_type = SignalType.NEUTRAL
-            confidence = 0.0
 
         return Signal(
-            symbol=last_candle.symbol,
-            timeframe=last_candle.timeframe,
-            timestamp=last_candle.timestamp,
-            direction=sig_type,
-            strategy_id=self.name,
-            strategy_version="1.0.0",
-            confidence=round(confidence, 4),
-            metadata={"fast_val": fast_val, "slow_val": slow_val},
+            symbol=symbol,
+            timeframe=timeframe,
+            timestamp=timestamp,
+            direction=SignalDirection.NEUTRAL,
+            strength=0.0,
+            strategy_name=self.name,
         )

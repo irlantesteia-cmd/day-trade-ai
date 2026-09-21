@@ -1,1 +1,3 @@
-"""Feature Engine package for quantitative and Machine Learning feature extraction."""
+from src.features.engine import FeatureEngine
+
+__all__ = ["FeatureEngine"]
