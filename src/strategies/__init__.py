@@ -1,0 +1,1 @@
+"""Strategy Engine package for quantitative trading signal generation."""
