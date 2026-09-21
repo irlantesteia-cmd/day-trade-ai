@@ -1,0 +1,1 @@
+"""Indicator Engine package for quantitative technical analysis."""
