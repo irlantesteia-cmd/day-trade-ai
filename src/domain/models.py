@@ -66,6 +66,8 @@ class Order(BaseModel):
     order_type: OrderType
     quantity: float
     price: Optional[float] = None
+    stop_loss: Optional[float] = None
+    take_profit: Optional[float] = None
     status: OrderStatus = OrderStatus.CREATED
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
