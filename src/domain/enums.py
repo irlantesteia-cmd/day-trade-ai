@@ -1,52 +1,63 @@
 from enum import Enum
 
 
-class Timeframe(str, Enum):
-    M1 = "1m"
-    M5 = "5m"
-    M15 = "15m"
-    H1 = "1h"
-    D1 = "1d"
-
-
-class AssetClass(str, Enum):
-    FUTURES = "FUTURES"
-    EQUITIES = "EQUITIES"
-    FOREX = "FOREX"
+class AssetType(Enum):
+    STOCK = "STOCK"
+    FUTURE = "FUTURE"
     CRYPTO = "CRYPTO"
+    INDEX = "INDEX"
+    FX = "FX"
+    WIN = "WIN"
+    WDO = "WDO"
 
 
-class OrderSide(str, Enum):
+AssetClass = AssetType
+
+
+class OrderDirection(Enum):
     BUY = "BUY"
     SELL = "SELL"
+    LONG = "BUY"
+    SHORT = "SELL"
 
 
-class OrderType(str, Enum):
+OrderSide = OrderDirection
+
+
+class OrderType(Enum):
     MARKET = "MARKET"
     LIMIT = "LIMIT"
     STOP = "STOP"
 
 
-class OrderStatus(str, Enum):
-    CREATED = "CREATED"
+class OrderStatus(Enum):
     PENDING = "PENDING"
     FILLED = "FILLED"
     CANCELLED = "CANCELLED"
     REJECTED = "REJECTED"
 
 
-class PositionSide(str, Enum):
+class PositionSide(Enum):
     LONG = "LONG"
     SHORT = "SHORT"
-    FLAT = "FLAT"
+    BUY = "LONG"
+    SELL = "SHORT"
 
 
-class SignalType(str, Enum):
+class SignalDirection(Enum):
     BUY = "BUY"
     SELL = "SELL"
+    LONG = "BUY"
+    SHORT = "SELL"
     NEUTRAL = "NEUTRAL"
 
 
-# Aliases para compatibilidade total entre módulos e testes
-SignalSide = SignalType
-SignalDirection = SignalType
+SignalType = SignalDirection
+
+
+class Timeframe(Enum):
+    M1 = "1m"
+    M5 = "5m"
+    M15 = "15m"
+    H1 = "1h"
+    D1 = "1d"
