@@ -35,3 +35,42 @@ def test_paper_execution_pnl_realization():
     assert "WIN" not in engine.portfolio.positions
     assert engine.portfolio.cash == 10020.0
     assert engine.portfolio.equity == 10020.0
+
+
+def test_paper_execution_short_order_and_pnl():
+    from src.execution.engine import ExecutionEngine
+    from src.domain.enums import OrderDirection, OrderType, PositionSide
+    from src.domain.models import Order
+
+    engine = ExecutionEngine(initial_balance=10000.0)
+
+    # 1. Abertura de posicao SHORT (venda a 100.0)
+    sell_order = Order(
+        symbol="WIN",
+        side=OrderDirection.SELL,
+        order_type=OrderType.MARKET,
+        quantity=1.0,
+    )
+    executed_order = engine.process_order(sell_order, current_price=100.0)
+
+    assert executed_order is not None
+    assert executed_order.status.value == "FILLED"
+    assert "WIN" in engine.portfolio.positions
+
+    pos = engine.portfolio.positions["WIN"]
+    assert pos.quantity == 1.0
+
+    # 2. Fechamento da posicao com compra a 90.0 (Lucro de +10.0 na queda)
+    buy_order = Order(
+        symbol="WIN",
+        side=OrderDirection.BUY,
+        order_type=OrderType.MARKET,
+        quantity=1.0,
+    )
+    engine.process_order(buy_order, current_price=90.0)
+
+    # Saldo final = 10010.0 (10000 inicial + 10 de lucro)
+    current_cash = getattr(
+        engine.portfolio, "cash", getattr(engine.portfolio, "balance", 0.0)
+    )
+    assert current_cash == 10010.0
