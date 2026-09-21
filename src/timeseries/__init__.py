@@ -1,0 +1,1 @@
+"""Time Series Engine package for resampling, temporal alignment, and rolling windows."""
