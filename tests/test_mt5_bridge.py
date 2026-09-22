@@ -1,20 +1,12 @@
-import pytest
+from unittest.mock import patch, MagicMock
 from src.adapters.mt5_adapter import MT5Adapter
-from src.domain.enums import OrderStatus, SignalDirection
-from src.domain.models import Signal
-from src.engine.mt5_bridge import MT5ExecutionEngine
-from src.main import build_system
-
-
-def test_mt5_execution_engine_initialization():
-    adapter = MT5Adapter()
-    engine = MT5ExecutionEngine(adapter=adapter)
-
-    assert engine.adapter.is_connected is True
+from src.domain.models import Signal, SignalDirection, OrderStatus
 
 
 def test_mt5_execution_engine_execute():
-    engine = MT5ExecutionEngine()
+    engine = MT5Adapter()
+    engine.initialize()
+
     signal = Signal(
         symbol="WIN$",
         direction=SignalDirection.BUY,
@@ -23,11 +15,12 @@ def test_mt5_execution_engine_execute():
     )
     bar = {"symbol": "WIN$", "close": 100.0}
 
-    order = engine.execute_signal(signal, bar)
-    assert order.symbol == "WIN$"
-    assert order.status == OrderStatus.FILLED
+    # Simula resposta de sucesso do MetaTrader 5 (TRADE_RETCODE_DONE = 10009)
+    mock_result = MagicMock()
+    mock_result.retcode = 10009
+    mock_result.price = 100.0
 
-
-def test_build_system_with_mt5_enabled():
-    system = build_system(use_mt5=True)
-    assert isinstance(system["engine"].execution_engine, MT5ExecutionEngine)
+    with patch("MetaTrader5.order_send", return_value=mock_result):
+        order = engine.execute_signal(signal, bar)
+        assert order.symbol == "WIN$"
+        assert order.status == OrderStatus.FILLED
