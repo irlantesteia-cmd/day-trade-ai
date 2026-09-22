@@ -1,8 +1,11 @@
 import argparse
+import os
 import time
 from dataclasses import dataclass
 from typing import Optional, List, Tuple, Any
+
 from src.main import build_system
+from src.adapters.mt5_adapter import MT5Adapter
 from src.domain.models import Order, OrderStatus, OrderType
 
 
@@ -24,10 +27,23 @@ class CLIConfig:
 
 def parse_args(args: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Day Trade AI Platform - System Runner")
-    parser.add_argument("--env", default="development", help="Environment mode (development, staging, production)")
-    parser.add_argument("--mode", choices=["paper", "live", "backtest"], default="paper", help="Trading mode")
-    parser.add_argument("--max-loss", type=float, default=1000.0, help="Maximum daily loss limit")
-    parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"], default="INFO", help="Logging level")
+    parser.add_argument("--env", default="development",
+                        help="Environment (development, staging, production)")
+    parser.add_argument(
+        "--mode",
+        choices=["paper", "paper_mt5", "live", "backtest"],
+        default="paper_mt5",
+        help="paper = le barras e simula ordens | paper_mt5 = le barras e envia p/ demo MT5 | live = real",
+    )
+    parser.add_argument("--max-loss", type=float, default=1000.0,
+                        help="Limite de perda diaria")
+    parser.add_argument("--log-level",
+                        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+                        default="INFO")
+    parser.add_argument("--symbol", default="WIN$",
+                        help="Ativo a operar (default: WIN$)")
+    parser.add_argument("--poll-interval", type=float, default=2.0,
+                        help="Segundos entre polls de barra")
     return parser.parse_args(args)
 
 
@@ -41,73 +57,118 @@ def build_config_from_args(args: argparse.Namespace) -> CLIConfig:
 
 
 def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
-    parsed_args = parse_args(args)
-    config = build_config_from_args(parsed_args)
+    parsed = parse_args(args)
+    config = build_config_from_args(parsed)
 
-    try:
-        system = build_system(config)
-    except TypeError:
-        try:
-            system = build_system(config=config)
-        except TypeError:
-            system = build_system()
+    os.environ.setdefault("LOG_LEVEL", config.log_level)
 
+    use_mt5 = parsed.mode in ("paper_mt5", "live")
+    system = build_system(config, use_mt5=use_mt5)
+
+    # Sincroniza config
     if isinstance(system, dict):
         if "config" in system:
-            if hasattr(system["config"], "environment"):
-                system["config"].environment = config.environment
-            if hasattr(system["config"], "trading_mode"):
-                system["config"].trading_mode = config.trading_mode
-            if hasattr(system["config"], "max_daily_loss"):
-                system["config"].max_daily_loss = config.max_daily_loss
-            if hasattr(system["config"], "log_level"):
-                system["config"].log_level = config.log_level
-
+            cfg = system["config"]
+            for attr in ("environment", "trading_mode", "max_daily_loss", "log_level"):
+                if hasattr(cfg, attr):
+                    setattr(cfg, attr, getattr(config, attr))
         if "kill_switch" in system:
             ks = system["kill_switch"]
             if hasattr(ks, "max_daily_loss"):
                 ks.max_daily_loss = config.max_daily_loss
-            if hasattr(ks, "max_loss"):
-                ks.max_loss = config.max_daily_loss
 
     engine = system.get("engine") if isinstance(system, dict) else None
-    
-    # Instancia a ordem mock de teste usando parâmetros genéricos aceitos pelo dataclass Order
-    try:
-        order = Order(
-            symbol="PETR4",
-            quantity=100.0,
-            side="BUY",
-            order_type=OrderType.MARKET,
-            price=30.0,
-            status=OrderStatus.FILLED,
-        )
-    except Exception:
-        # Fallback caso a assinatura do construtor de Order exija campos específicos
-        order = Order(
-            symbol="PETR4",
-            quantity=100.0,
-            price=30.0,
-            status=OrderStatus.FILLED,
-        )
 
-    # Em execução de teste (quando argumentos explícitos são passados)
+    # Mock order apenas para chamadas programaticas (quando args explicito)
+    order = None
+    try:
+        order = Order(symbol="PETR4", quantity=100.0, side="BUY",
+                      order_type=OrderType.MARKET, price=30.0,
+                      status=OrderStatus.FILLED)
+    except Exception:
+        try:
+            order = Order(symbol="PETR4", quantity=100.0, price=30.0,
+                          status=OrderStatus.FILLED)
+        except Exception:
+            order = None
+
     if args is not None:
         return system, order
 
-    print(f"🚀 Iniciando Day Trade AI Platform em modo [{config.trading_mode.upper()}] (Env: {config.environment})...")
-    print("📡 Conectado ao MetaTrader 5. Pressione Ctrl+C para encerrar com segurança.")
+    # === Execucao interativa ===
+    symbol = parsed.symbol
+    poll_interval = max(0.5, parsed.poll_interval)
+
+    print("=" * 60)
+    print(f"🚀 Day Trade AI Platform | modo [{config.trading_mode.upper()}]")
+    print(f"   Env     : {config.environment}")
+    print(f"   Simbolo : {symbol}")
+    print(f"   Poll    : {poll_interval}s")
+    print(f"   Exec MT5: {'ATIVA (demo/live)' if use_mt5 else 'SIMULADA (Dummy)'}")
+    print(f"   Log     : {config.log_level}")
+    print("=" * 60)
+
+    bar_adapter = MT5Adapter()
+    if not bar_adapter.initialize():
+        print("❌ Falha ao inicializar MT5 para leitura de barras. Abortando.")
+        return system, order
+
+    print("📡 Conectado ao MetaTrader 5. Pressione Ctrl+C para encerrar.\n")
 
     if engine and hasattr(engine, "start"):
         engine.start()
 
+    last_timestamp = None
+    bars_processed = 0
+    orders_executed = 0
+
     try:
         while engine and getattr(engine, "is_running", True):
-            time.sleep(1)
+            try:
+                bar = bar_adapter.fetch_latest_bar(symbol)
+            except Exception as exc:
+                print(f"⚠️  Erro ao buscar barra: {exc}")
+                time.sleep(poll_interval)
+                continue
+
+            if not bar:
+                time.sleep(poll_interval)
+                continue
+
+            ts = bar.get("timestamp")
+            if ts == last_timestamp:
+                time.sleep(poll_interval)
+                continue
+
+            last_timestamp = ts
+            bars_processed += 1
+
+            print(
+                f"🕯️  [{bars_processed}] {symbol} @ {ts} | "
+                f"O={bar['open']:.2f} H={bar['high']:.2f} "
+                f"L={bar['low']:.2f} C={bar['close']:.2f} "
+                f"V={bar['volume']:.0f}"
+            )
+
+            try:
+                result = engine.process_bar(bar)
+            except Exception as exc:
+                print(f"❌ Erro ao processar barra: {exc}")
+                result = None
+
+            if result is not None:
+                orders_executed += 1
+                print(f"   ✅ Ordem executada: {result}")
+
+            time.sleep(poll_interval)
+
     except KeyboardInterrupt:
-        print("\n🛑 Sinal de interrupção recebido. Encerrando a plataforma...")
+        print("\n🛑 Interrupção recebida. Encerrando...")
+    finally:
         if engine and hasattr(engine, "stop"):
             engine.stop()
+        bar_adapter.shutdown()
+        print(f"\n📊 Total: {bars_processed} barras | {orders_executed} ordens")
         print("✅ Plataforma finalizada com segurança.")
 
     return system, order
