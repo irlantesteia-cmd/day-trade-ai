@@ -1,9 +1,11 @@
 from typing import Dict, Any, Tuple, Optional
+from src.adapters.mt5_adapter import MT5Adapter
 from src.config.settings import AppConfig
 from src.domain.enums import OrderStatus, SignalDirection
 from src.domain.models import Order, Signal
 from src.engine.kill_switch import KillSwitch
 from src.engine.live_engine import LiveTradingEngine
+from src.engine.mt5_bridge import MT5ExecutionEngine
 from src.telemetry.alerts import AlertManager
 from src.telemetry.collector import MetricsCollector
 from src.telemetry.health import SystemHealthMonitor
@@ -32,14 +34,20 @@ class DummyExecutionEngine:
         )
 
 
-def build_system(config: Optional[AppConfig] = None) -> Dict[str, Any]:
+def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> Dict[str, Any]:
     cfg = config or AppConfig.from_env()
 
     metrics = MetricsCollector()
     health = SystemHealthMonitor(metrics)
     alerts = AlertManager()
     strategy = DummyStrategy()
-    execution = DummyExecutionEngine()
+
+    if use_mt5 or cfg.trading_mode in ["live", "paper_mt5"]:
+        mt5_adapter = MT5Adapter()
+        mt5_adapter.initialize()
+        execution = MT5ExecutionEngine(adapter=mt5_adapter)
+    else:
+        execution = DummyExecutionEngine()
 
     engine = LiveTradingEngine(
         strategy=strategy,
@@ -62,8 +70,8 @@ def build_system(config: Optional[AppConfig] = None) -> Dict[str, Any]:
     }
 
 
-def run_app(config: Optional[AppConfig] = None) -> Tuple[Dict[str, Any], Any]:
-    system = build_system(config)
+def run_app(config: Optional[AppConfig] = None, use_mt5: bool = False) -> Tuple[Dict[str, Any], Any]:
+    system = build_system(config, use_mt5=use_mt5)
     engine = system["engine"]
     engine.start()
 
