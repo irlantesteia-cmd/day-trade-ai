@@ -50,7 +50,7 @@ class DummyStrategy:
 class FeatureMLStrategy:
     """
     Wrapper stateful que calcula features derivadas de uma sequencia de barras
-    OHLCV, APLICA NORMALIZACAO (z-score) e delega para MLSignalStrategy.
+    OHLCV, aplica normalizacao (z-score) e delega para MLSignalStrategy.
     """
 
     WINDOW = 20
@@ -116,7 +116,6 @@ class FeatureMLStrategy:
         enriched = dict(bar)
         enriched.update(feats)
 
-        # Normalizacao z-score (mesma do treino)
         if self._means is not None and self._stds is not None:
             for i, k in enumerate(self.ml_strategy.feature_keys):
                 raw = float(enriched.get(k, 0.0))
@@ -264,7 +263,6 @@ def run_app(config: Optional[AppConfig] = None, use_mt5: bool = False) -> Tuple[
         )
         retrainer.evaluate_and_retrain(auditor.trade_history)
 
-    engine.stop()
     return system, order
 
 

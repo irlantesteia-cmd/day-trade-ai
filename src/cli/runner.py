@@ -1,5 +1,4 @@
 import argparse
-import os
 import time
 from dataclasses import dataclass
 from typing import Optional, List, Tuple, Any
@@ -32,8 +31,8 @@ def parse_args(args: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument(
         "--mode",
         choices=["paper", "paper_mt5", "live", "backtest"],
-        default="paper_mt5",
-        help="paper = le barras e simula ordens | paper_mt5 = le barras e envia p/ demo MT5 | live = real",
+        default="paper",
+        help="paper = simula ordens localmente | paper_mt5 = envia p/ demo MT5 | live = real",
     )
     parser.add_argument("--max-loss", type=float, default=1000.0,
                         help="Limite de perda diaria")
@@ -60,12 +59,9 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
     parsed = parse_args(args)
     config = build_config_from_args(parsed)
 
-    os.environ.setdefault("LOG_LEVEL", config.log_level)
-
     use_mt5 = parsed.mode in ("paper_mt5", "live")
     system = build_system(config, use_mt5=use_mt5)
 
-    # Sincroniza config
     if isinstance(system, dict):
         if "config" in system:
             cfg = system["config"]
@@ -79,7 +75,6 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
 
     engine = system.get("engine") if isinstance(system, dict) else None
 
-    # Mock order apenas para chamadas programaticas (quando args explicito)
     order = None
     try:
         order = Order(symbol="PETR4", quantity=100.0, side="BUY",
@@ -92,6 +87,7 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
         except Exception:
             order = None
 
+    # Chamada programatica (testes): retorna sem iniciar loop
     if args is not None:
         return system, order
 
@@ -100,7 +96,7 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
     poll_interval = max(0.5, parsed.poll_interval)
 
     print("=" * 60)
-    print(f"🚀 Day Trade AI Platform | modo [{config.trading_mode.upper()}]")
+    print(f"Day Trade AI Platform | modo [{config.trading_mode.upper()}]")
     print(f"   Env     : {config.environment}")
     print(f"   Simbolo : {symbol}")
     print(f"   Poll    : {poll_interval}s")
@@ -110,10 +106,10 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
 
     bar_adapter = MT5Adapter()
     if not bar_adapter.initialize():
-        print("❌ Falha ao inicializar MT5 para leitura de barras. Abortando.")
+        print("Falha ao inicializar MT5 para leitura de barras. Abortando.")
         return system, order
 
-    print("📡 Conectado ao MetaTrader 5. Pressione Ctrl+C para encerrar.\n")
+    print("Conectado ao MetaTrader 5. Pressione Ctrl+C para encerrar.\n")
 
     if engine and hasattr(engine, "start"):
         engine.start()
@@ -127,7 +123,7 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
             try:
                 bar = bar_adapter.fetch_latest_bar(symbol)
             except Exception as exc:
-                print(f"⚠️  Erro ao buscar barra: {exc}")
+                print(f"Erro ao buscar barra: {exc}")
                 time.sleep(poll_interval)
                 continue
 
@@ -144,7 +140,7 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
             bars_processed += 1
 
             print(
-                f"🕯️  [{bars_processed}] {symbol} @ {ts} | "
+                f"[{bars_processed}] {symbol} @ {ts} | "
                 f"O={bar['open']:.2f} H={bar['high']:.2f} "
                 f"L={bar['low']:.2f} C={bar['close']:.2f} "
                 f"V={bar['volume']:.0f}"
@@ -153,23 +149,23 @@ def main_cli(args: Optional[List[str]] = None) -> Tuple[Any, Any]:
             try:
                 result = engine.process_bar(bar)
             except Exception as exc:
-                print(f"❌ Erro ao processar barra: {exc}")
+                print(f"Erro ao processar barra: {exc}")
                 result = None
 
             if result is not None:
                 orders_executed += 1
-                print(f"   ✅ Ordem executada: {result}")
+                print(f"   Ordem executada: {result}")
 
             time.sleep(poll_interval)
 
     except KeyboardInterrupt:
-        print("\n🛑 Interrupção recebida. Encerrando...")
+        print("\nInterrupcao recebida. Encerrando...")
     finally:
         if engine and hasattr(engine, "stop"):
             engine.stop()
         bar_adapter.shutdown()
-        print(f"\n📊 Total: {bars_processed} barras | {orders_executed} ordens")
-        print("✅ Plataforma finalizada com segurança.")
+        print(f"\nTotal: {bars_processed} barras | {orders_executed} ordens")
+        print("Plataforma finalizada com seguranca.")
 
     return system, order
 
