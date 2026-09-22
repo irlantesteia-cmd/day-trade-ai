@@ -1,5 +1,7 @@
 from typing import Dict, Any, Tuple, Optional
 from src.adapters.mt5_adapter import MT5Adapter
+from src.agents.auditor import TradeAuditor
+from src.agents.trainer import AutoRetrainer
 from src.config.settings import AppConfig
 from src.domain.enums import OrderStatus, SignalDirection
 from src.domain.models import Order, Signal
@@ -41,6 +43,8 @@ def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> D
     health = SystemHealthMonitor(metrics)
     alerts = AlertManager()
     strategy = DummyStrategy()
+    auditor = TradeAuditor()
+    retrainer = AutoRetrainer(min_samples=5)
 
     if use_mt5 or cfg.trading_mode in ["live", "paper_mt5"]:
         mt5_adapter = MT5Adapter()
@@ -67,16 +71,31 @@ def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> D
         "alerts": alerts,
         "engine": engine,
         "kill_switch": kill_switch,
+        "auditor": auditor,
+        "retrainer": retrainer,
     }
 
 
 def run_app(config: Optional[AppConfig] = None, use_mt5: bool = False) -> Tuple[Dict[str, Any], Any]:
     system = build_system(config, use_mt5=use_mt5)
     engine = system["engine"]
+    auditor = system["auditor"]
+    retrainer = system["retrainer"]
+
     engine.start()
 
     sample_bar = {"symbol": "WIN", "close": 105.0}
     order = engine.process_bar(sample_bar)
+
+    if order and getattr(order, "status", None) == OrderStatus.FILLED:
+        auditor.record_trade(
+            order=order,
+            features_snapshot={"close": sample_bar["close"]},
+            expected_price=105.0,
+            pnl=10.0,
+        )
+        retrainer.evaluate_and_retrain(auditor.trade_history)
+
     return system, order
 
 
