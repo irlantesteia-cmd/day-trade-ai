@@ -1,12 +1,12 @@
-from typing import Dict, Any, Tuple
-from src.domain.enums import OrderStatus
+from typing import Dict, Any, Tuple, Optional
+from src.config.settings import AppConfig
+from src.domain.enums import OrderStatus, SignalDirection
 from src.domain.models import Order, Signal
-from src.domain.enums import SignalDirection
+from src.engine.kill_switch import KillSwitch
+from src.engine.live_engine import LiveTradingEngine
+from src.telemetry.alerts import AlertManager
 from src.telemetry.collector import MetricsCollector
 from src.telemetry.health import SystemHealthMonitor
-from src.telemetry.alerts import AlertManager
-from src.engine.live_engine import LiveTradingEngine
-from src.engine.kill_switch import KillSwitch
 
 
 class DummyStrategy:
@@ -32,7 +32,9 @@ class DummyExecutionEngine:
         )
 
 
-def build_system() -> Dict[str, Any]:
+def build_system(config: Optional[AppConfig] = None) -> Dict[str, Any]:
+    cfg = config or AppConfig.from_env()
+
     metrics = MetricsCollector()
     health = SystemHealthMonitor(metrics)
     alerts = AlertManager()
@@ -47,10 +49,11 @@ def build_system() -> Dict[str, Any]:
         health_monitor=health,
     )
 
-    kill_switch = KillSwitch(engine)
+    kill_switch = KillSwitch(engine, max_daily_loss=cfg.max_daily_loss)
     alerts.register_handler(kill_switch.handle_alert)
 
     return {
+        "config": cfg,
         "metrics": metrics,
         "health": health,
         "alerts": alerts,
@@ -59,8 +62,8 @@ def build_system() -> Dict[str, Any]:
     }
 
 
-def run_app() -> Tuple[Dict[str, Any], Any]:
-    system = build_system()
+def run_app(config: Optional[AppConfig] = None) -> Tuple[Dict[str, Any], Any]:
+    system = build_system(config)
     engine = system["engine"]
     engine.start()
 
