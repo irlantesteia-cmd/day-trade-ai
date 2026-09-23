@@ -1,7 +1,16 @@
+"""
+AccountState - estado financeiro da conta de trading.
+
+Contem cash, balance, equity e posicoes abertas. Usado pelo
+ExecutionEngine para rastrear o estado da conta durante execucao.
+
+Nota: nao confundir com `src.portfolio.manager.PortfolioManager`, que
+trata alocacao de capital entre ativos (weights, target_capital).
+"""
 from typing import Dict, Any
 
 
-class PortfolioManager:
+class AccountState:
     def __init__(self, initial_balance: float = 10000.0):
         self.cash: float = initial_balance
         self.balance: float = initial_balance
@@ -40,13 +49,13 @@ class PortfolioManager:
                 price = current_prices[symbol]
                 if hasattr(position, "current_price"):
                     position.current_price = price
-                
+
                 side_val = getattr(position, "side", None)
                 is_long = True
                 if side_val is not None:
                     val = getattr(side_val, "value", str(side_val))
                     is_long = str(val).upper() in ["LONG", "BUY"]
-                    
+
                 entry = getattr(position, "entry_price", price)
                 qty = getattr(position, "quantity", 0.0)
                 pnl = (price - entry) * qty if is_long else (entry - price) * qty
@@ -54,3 +63,7 @@ class PortfolioManager:
                     position.unrealized_pnl = pnl
                 if hasattr(position, "pnl"):
                     position.pnl = pnl
+
+
+# Alias de retrocompatibilidade (deprecado; sera removido em milestone futuro)
+PortfolioManager = AccountState
