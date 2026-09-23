@@ -16,6 +16,31 @@ except ImportError:
     HAS_MT5 = False
 
 
+def _is_buy_order(order: Order) -> bool:
+    """Retorna True se order.direction indica BUY/LONG."""
+    raw = getattr(order.direction, "value", str(order.direction))
+    up = str(raw).upper()
+    return "BUY" in up or "LONG" in up
+
+
+def _signal_from_order(order: Order) -> Signal:
+    """
+    Cria um Signal 'shim' a partir de uma Order para reuso de _compute_sltp.
+
+    Nao carrega metadata; ATR nao estara disponivel, entao o calculator
+    usara default_sl_pct. Isso e aceitavel para este milestone.
+    """
+    direction = (
+        SignalDirection.BUY if _is_buy_order(order) else SignalDirection.SELL
+    )
+    return Signal(
+        symbol=order.symbol,
+        direction=direction,
+        confidence=1.0,
+        metadata={},
+    )
+
+
 class MT5Adapter:
     """
     Adaptador de integracao com o MetaTrader 5 para coleta de dados e
@@ -24,6 +49,10 @@ class MT5Adapter:
     Calcula stop_loss e take_profit via SLTPCalculator antes de enviar
     ordens ao MT5 (usa ATR se disponivel em signal.metadata, senao
     percentual fixo definido em RiskConfig).
+
+    Oferece duas interfaces de execucao:
+      - execute_signal(signal, bar)  -> via Signal (legado)
+      - execute_order(order, price)  -> via Order (simetrico com PaperBroker)
     """
 
     def __init__(
@@ -120,9 +149,7 @@ class MT5Adapter:
             "timestamp": 1700000000,
         }
 
-    def _compute_sltp(
-        self, signal: Signal, entry_price: float
-    ) -> tuple:
+    def _compute_sltp(self, signal: Signal, entry_price: float) -> tuple:
         """Calcula (stop_loss, take_profit) usando SLTPCalculator."""
         atr_val = None
         if isinstance(signal.metadata, dict):
@@ -153,6 +180,9 @@ class MT5Adapter:
         """
         Converte um sinal em ordem e envia para execucao no MT5.
         Inclui stop_loss e take_profit calculados via SLTPCalculator.
+
+        Interface legada baseada em Signal. Para o contrato unificado
+        com PaperBroker, use execute_order().
         """
         price = float(bar.get("close", 100.0))
         stop_loss, take_profit = self._compute_sltp(signal, price)
@@ -226,3 +256,67 @@ class MT5Adapter:
             take_profit=take_profit,
             status=OrderStatus.FILLED,
         )
+
+    def execute_order(self, order: Order, current_price: float) -> Order:
+        """
+        Executa uma Order (assinatura simetrica com PaperBroker).
+
+        Se a Order ja tem stop_loss/take_profit, usa-os.
+        Se nao tem, calcula via SLTPCalculator a partir do direction.
+        """
+        if not self.is_connected:
+            order.status = OrderStatus.REJECTED
+            return order
+
+        stop_loss = order.stop_loss
+        take_profit = order.take_profit
+        if stop_loss is None or take_profit is None:
+            sl, tp = self._compute_sltp(
+                signal=_signal_from_order(order),
+                entry_price=current_price,
+            )
+            stop_loss = stop_loss if stop_loss is not None else sl
+            take_profit = take_profit if take_profit is not None else tp
+
+        if HAS_MT5 and mt5:
+            order_type = (
+                mt5.ORDER_TYPE_BUY
+                if _is_buy_order(order)
+                else mt5.ORDER_TYPE_SELL
+            )
+            request = {
+                "action": mt5.TRADE_ACTION_DEAL,
+                "symbol": order.symbol,
+                "volume": order.quantity,
+                "type": order_type,
+                "price": current_price,
+                "sl": stop_loss,
+                "tp": take_profit,
+                "deviation": 10,
+                "magic": 100100,
+                "comment": "DayTradeAI_AutoOrder",
+                "type_time": mt5.ORDER_TIME_GTC,
+                "type_filling": mt5.ORDER_FILLING_IOC,
+            }
+            result = mt5.order_send(request)
+            if result is not None and result.retcode == mt5.TRADE_RETCODE_DONE:
+                order.price = result.price if result.price > 0 else current_price
+                order.stop_loss = stop_loss
+                order.take_profit = take_profit
+                order.status = OrderStatus.FILLED
+                return order
+            else:
+                ret_code = result.retcode if result else "NO_RESULT"
+                logger.error(f"Erro ao enviar ordem no MT5. Retcode: {ret_code}")
+                order.price = current_price
+                order.stop_loss = stop_loss
+                order.take_profit = take_profit
+                order.status = OrderStatus.REJECTED
+                return order
+
+        # Simulacao (sem MT5 instalado)
+        order.price = current_price
+        order.stop_loss = stop_loss
+        order.take_profit = take_profit
+        order.status = OrderStatus.FILLED
+        return order

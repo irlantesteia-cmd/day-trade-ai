@@ -1,7 +1,7 @@
 from typing import Dict, Any
 from src.domain.enums import OrderDirection, OrderStatus, PositionSide
 from src.domain.models import Order, Position
-
+from src.execution.broker_base import Broker
 
 class Portfolio:
     def __init__(self, cash: float = 10000.0):
@@ -9,7 +9,7 @@ class Portfolio:
         self.positions: Dict[str, Any] = {}
 
 
-class PaperBroker:
+class PaperBroker(Broker):
     def __init__(
         self,
         initial_balance: float = 10000.0,
