@@ -1,11 +1,13 @@
 import logging
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
+
 from src.domain.enums import OrderStatus, SignalDirection
 from src.domain.models import Order, Signal
+from src.risk.calculators import SLTPCalculator
+from src.risk.config import RiskConfig
 
 logger = logging.getLogger(__name__)
 
-# Tenta importar MetaTrader5; se não instalado/disponível, opera com suporte desacoplado
 try:
     import MetaTrader5 as mt5
     HAS_MT5 = True
@@ -16,19 +18,33 @@ except ImportError:
 
 class MT5Adapter:
     """
-    Adaptador de integracao com o MetaTrader 5 para coleta de dados e execucao de ordens.
+    Adaptador de integracao com o MetaTrader 5 para coleta de dados e
+    execucao de ordens.
+
+    Calcula stop_loss e take_profit via SLTPCalculator antes de enviar
+    ordens ao MT5 (usa ATR se disponivel em signal.metadata, senao
+    percentual fixo definido em RiskConfig).
     """
 
-    def __init__(self, login: Optional[int] = None, password: Optional[str] = None, server: Optional[str] = None):
+    def __init__(
+        self,
+        login: Optional[int] = None,
+        password: Optional[str] = None,
+        server: Optional[str] = None,
+        risk_config: Optional[RiskConfig] = None,
+    ):
         self.login = login
         self.password = password
         self.server = server
         self.is_connected = False
+        self.risk_config = risk_config or RiskConfig()
+        self.sltp_calc = SLTPCalculator(self.risk_config)
 
     def initialize(self) -> bool:
-        """Inicializa a conexao com o terminal MetaTrader 5."""
         if not HAS_MT5:
-            logger.warning("MetaTrader5 nao esta instalado no ambiente Python. Operando em modo desacoplado/mock.")
+            logger.warning(
+                "MetaTrader5 nao esta instalado. Operando em modo desacoplado/mock."
+            )
             self.is_connected = True
             return True
 
@@ -50,14 +66,12 @@ class MT5Adapter:
             return False
 
     def shutdown(self) -> None:
-        """Encerra a conexao com o MetaTrader 5."""
         if HAS_MT5 and self.is_connected:
             mt5.shutdown()
         self.is_connected = False
         logger.info("Conexao com MetaTrader 5 encerrada.")
 
     def get_account_info(self) -> Dict[str, Any]:
-        """Obtem informacoes da conta (saldo, patrimonio, margem)."""
         if not self.is_connected:
             return {"balance": 0.0, "equity": 0.0, "margin": 0.0}
 
@@ -73,11 +87,15 @@ class MT5Adapter:
                     "leverage": info.leverage,
                 }
 
-        # Fallback para ambiente sem terminal MT5 ativo
-        return {"balance": 100000.0, "equity": 100000.0, "margin": 0.0, "free_margin": 100000.0, "leverage": 100}
+        return {
+            "balance": 100000.0,
+            "equity": 100000.0,
+            "margin": 0.0,
+            "free_margin": 100000.0,
+            "leverage": 100,
+        }
 
     def fetch_latest_bar(self, symbol: str) -> Dict[str, Any]:
-        """Obtem a barra mais recente do ativo configurado."""
         if HAS_MT5 and self.is_connected and mt5:
             rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M1, 0, 1)
             if rates is not None and len(rates) > 0:
@@ -92,7 +110,6 @@ class MT5Adapter:
                     "timestamp": int(bar["time"]),
                 }
 
-        # Retorno sintético para testes / fallback
         return {
             "symbol": symbol,
             "open": 100.0,
@@ -103,27 +120,72 @@ class MT5Adapter:
             "timestamp": 1700000000,
         }
 
+    def _compute_sltp(
+        self, signal: Signal, entry_price: float
+    ) -> tuple:
+        """Calcula (stop_loss, take_profit) usando SLTPCalculator."""
+        atr_val = None
+        if isinstance(signal.metadata, dict):
+            atr_val = signal.metadata.get("atr")
+
+        try:
+            stop_loss, take_profit = self.sltp_calc.calculate(
+                direction=signal.direction,
+                entry_price=entry_price,
+                atr=atr_val,
+            )
+        except Exception as exc:
+            logger.warning(
+                "Falha ao calcular SL/TP (%s). Usando fallback default_sl_pct.", exc
+            )
+            sl_distance = entry_price * (self.risk_config.default_sl_pct / 100.0)
+            tp_distance = sl_distance * self.risk_config.reward_to_risk_ratio
+            if signal.direction == SignalDirection.BUY:
+                stop_loss = entry_price - sl_distance
+                take_profit = entry_price + tp_distance
+            else:
+                stop_loss = entry_price + sl_distance
+                take_profit = entry_price - tp_distance
+
+        return round(stop_loss, 4), round(take_profit, 4)
+
     def execute_signal(self, signal: Signal, bar: Dict[str, Any]) -> Order:
-        """Converte um sinal em ordem e envia para execucao no MT5."""
-        price = bar.get("close", 100.0)
-        
+        """
+        Converte um sinal em ordem e envia para execucao no MT5.
+        Inclui stop_loss e take_profit calculados via SLTPCalculator.
+        """
+        price = float(bar.get("close", 100.0))
+        stop_loss, take_profit = self._compute_sltp(signal, price)
+
+        quantity = 1.0
+        if isinstance(signal.metadata, dict):
+            quantity = float(signal.metadata.get("quantity", 1.0))
+
         if not self.is_connected:
             return Order(
                 symbol=signal.symbol,
                 direction=signal.direction,
-                quantity=1.0,
+                quantity=quantity,
                 price=price,
+                stop_loss=stop_loss,
+                take_profit=take_profit,
                 status=OrderStatus.REJECTED,
             )
 
         if HAS_MT5 and mt5:
-            order_type = mt5.ORDER_TYPE_BUY if signal.direction == SignalDirection.BUY else mt5.ORDER_TYPE_SELL
+            order_type = (
+                mt5.ORDER_TYPE_BUY
+                if signal.direction == SignalDirection.BUY
+                else mt5.ORDER_TYPE_SELL
+            )
             request = {
                 "action": mt5.TRADE_ACTION_DEAL,
                 "symbol": signal.symbol,
-                "volume": 1.0,
+                "volume": quantity,
                 "type": order_type,
                 "price": price,
+                "sl": stop_loss,
+                "tp": take_profit,
                 "deviation": 10,
                 "magic": 100100,
                 "comment": "DayTradeAI_AutoOrder",
@@ -135,8 +197,10 @@ class MT5Adapter:
                 return Order(
                     symbol=signal.symbol,
                     direction=signal.direction,
-                    quantity=1.0,
+                    quantity=quantity,
                     price=result.price if result.price > 0 else price,
+                    stop_loss=stop_loss,
+                    take_profit=take_profit,
                     status=OrderStatus.FILLED,
                 )
             else:
@@ -145,16 +209,20 @@ class MT5Adapter:
                 return Order(
                     symbol=signal.symbol,
                     direction=signal.direction,
-                    quantity=1.0,
+                    quantity=quantity,
                     price=price,
+                    stop_loss=stop_loss,
+                    take_profit=take_profit,
                     status=OrderStatus.REJECTED,
                 )
 
-        # Simulação para ambiente sem terminal MT5
+        # Simulacao (sem MT5 instalado)
         return Order(
             symbol=signal.symbol,
             direction=signal.direction,
-            quantity=1.0,
+            quantity=quantity,
             price=price,
+            stop_loss=stop_loss,
+            take_profit=take_profit,
             status=OrderStatus.FILLED,
         )
