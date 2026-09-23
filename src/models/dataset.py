@@ -1,19 +1,55 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 
 class MLDataset:
-    def __init__(self, X: List[List[float]], y: List[int], feature_names: List[str]):
+    def __init__(
+        self,
+        X: List[List[float]],
+        y: List[int],
+        feature_names: List[str],
+        dataset_version: str = "unversioned",
+        horizon: int = 1,
+        threshold: float = 0.0,
+    ):
         self.X = X
         self.y = y
         self.feature_names = feature_names
+        self.dataset_version = dataset_version
+        self.horizon = horizon
+        self.threshold = threshold
+
+    def summary(self) -> Dict[str, Any]:
+        n = len(self.y)
+        n_pos = sum(self.y) if self.y else 0
+        return {
+            "dataset_version": self.dataset_version,
+            "n_samples": n,
+            "n_features": len(self.feature_names),
+            "n_positives": n_pos,
+            "positive_rate": (n_pos / n) if n else 0.0,
+            "horizon": self.horizon,
+            "threshold": self.threshold,
+            "feature_names": list(self.feature_names),
+        }
 
 
 class DatasetBuilder:
-    def __init__(self, target_horizon: int = 1, threshold: float = 0.0):
+    def __init__(
+        self,
+        target_horizon: int = 1,
+        threshold: float = 0.0,
+        dataset_version: Optional[str] = None,
+    ):
         if target_horizon < 1:
             raise ValueError("target_horizon must be at least 1")
         self.target_horizon = target_horizon
         self.threshold = threshold
+        self.dataset_version = dataset_version
+
+    def _resolve_version(self) -> str:
+        if self.dataset_version:
+            return self.dataset_version
+        return f"h{self.target_horizon}_t{self.threshold}"
 
     def build_binary_classification_dataset(
         self,
@@ -28,7 +64,9 @@ class DatasetBuilder:
 
         n = len(records)
         if n <= self.target_horizon:
-            raise ValueError(f"Insufficient records ({n}) for target_horizon ({self.target_horizon})")
+            raise ValueError(
+                f"Insufficient records ({n}) for target_horizon ({self.target_horizon})"
+            )
 
         X: List[List[float]] = []
         y: List[int] = []
@@ -55,4 +93,11 @@ class DatasetBuilder:
             X.append(feat_vector)
             y.append(label)
 
-        return MLDataset(X=X, y=y, feature_names=feature_keys)
+        return MLDataset(
+            X=X,
+            y=y,
+            feature_names=feature_keys,
+            dataset_version=self._resolve_version(),
+            horizon=self.target_horizon,
+            threshold=self.threshold,
+        )
