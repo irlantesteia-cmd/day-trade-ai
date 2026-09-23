@@ -49,11 +49,11 @@ Ultima atualizacao: pos-Milestone 1.
 | P1 | `src/backtest/engine.py` nao tem `__main__` nem argparse | Baixa | Fase 9 |
 | P2 | Config duplicado (`AppConfig` vs `Settings`) | Media | Ver ADR-002 |
 | P3 | `MT5Adapter.execute_signal` nao envia stop_loss nem take_profit | Alta | Fase 11 |
-| P4 | `src/ml/logistic_model.py` e stub morto (sempre retorna 0.5) | Baixa | Fase 14 |
+| P4 | `src/ml/logistic_model.py` e stub (usado por AutoRetrainer); migrar para modelo real | Media | Fase 14 |
 | P5 | Sem abstracao `Broker` formal | Media | Fase 19 |
 | P6 | Sem Event Bus | Media | Fase futura |
 | P7 | Sem Model Registry | Media | Fase 14 |
-| P8 | `src/pipeline.py` e `src/data/engine.py` com 0% de cobertura | Baixa | - |
+
 
 ## Proximos Milestones
 
