@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 from src.domain.models import Candle
-from src.execution.executor import ExecutionEngine
+from src.execution.engine import ExecutionEngine
 from src.risk.engine import RiskEngine
 from src.backtest.metrics import PerformanceMetrics, calculate_metrics
 

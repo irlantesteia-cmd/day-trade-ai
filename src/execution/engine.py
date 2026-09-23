@@ -1,14 +1,43 @@
-from typing import Optional, Dict, Any
+"""
+ExecutionEngine - motor de execucao de ordens via broker.
+
+Consolida o que antes era duplicado entre engine.py e executor.py.
+Mantem salvaguardas defensivas (cash, balance, positions) herdadas
+do antigo executor.py.
+"""
+from typing import Optional
+
 from src.execution.broker import PaperBroker
 from src.execution.portfolio import PortfolioManager
 from src.domain.models import Order
-from src.domain.enums import PositionSide, OrderDirection
 
 
 class ExecutionEngine:
-    def __init__(self, initial_balance: float = 10000.0, portfolio=None, broker=None):
-        self.portfolio = portfolio if portfolio is not None else PortfolioManager(initial_balance=initial_balance)
-        self.broker = broker if broker is not None else PaperBroker(initial_balance=initial_balance, portfolio=self.portfolio)
+    def __init__(
+        self,
+        initial_balance: float = 10000.0,
+        broker=None,
+        portfolio=None,
+    ):
+        self.portfolio = (
+            portfolio
+            if portfolio is not None
+            else PortfolioManager(initial_balance=initial_balance)
+        )
+
+        # Salvaguardas defensivas: garantir atributos minimos esperados
+        if not hasattr(self.portfolio, "cash") and hasattr(self.portfolio, "balance"):
+            self.portfolio.cash = self.portfolio.balance
+        if not hasattr(self.portfolio, "positions"):
+            self.portfolio.positions = {}
+
+        if broker is not None:
+            self.broker = broker
+        else:
+            self.broker = PaperBroker(initial_balance=initial_balance)
+
+        # Sincroniza portfolio do broker com o do engine (comportamento
+        # herdado do engine.py antigo: broker sempre usa o portfolio do engine)
         self.broker.portfolio = self.portfolio
 
     def process_order(self, order: Order, current_price: float) -> Order:

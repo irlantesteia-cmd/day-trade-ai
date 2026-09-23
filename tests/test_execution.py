@@ -1,6 +1,6 @@
 from src.domain.enums import OrderSide, OrderType, PositionSide
 from src.domain.models import Order
-from src.execution.executor import ExecutionEngine
+from src.execution.engine import ExecutionEngine
 
 
 def test_paper_execution_buy_order():
@@ -38,7 +38,6 @@ def test_paper_execution_pnl_realization():
 
 
 def test_paper_execution_short_order_and_pnl():
-    from src.execution.engine import ExecutionEngine
     from src.domain.enums import OrderDirection, OrderType, PositionSide
     from src.domain.models import Order
 
