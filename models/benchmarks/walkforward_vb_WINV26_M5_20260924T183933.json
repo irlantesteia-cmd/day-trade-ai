@@ -1,0 +1,77 @@
+{
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "source": "mt5",
+  "n_candles": 8509,
+  "n_windows": 5,
+  "vol_threshold": 1.5,
+  "lookback": 20,
+  "atr_sl": 3.0,
+  "atr_tp": 6.0,
+  "spread_points": 5.0,
+  "folds": [
+    {
+      "fold": 0,
+      "n_candles": 1701,
+      "start": "2026-04-15T12:10:00+00:00",
+      "end": "2026-06-30T16:00:00+00:00",
+      "pnl_pct": 10.29,
+      "trades": 56,
+      "win_rate": 44.64,
+      "profit_factor": 1.42,
+      "max_dd_pct": 6.86,
+      "sharpe": 6.89
+    },
+    {
+      "fold": 1,
+      "n_candles": 1701,
+      "start": "2026-06-30T16:05:00+00:00",
+      "end": "2026-07-22T09:40:00+00:00",
+      "pnl_pct": -3.31,
+      "trades": 59,
+      "win_rate": 45.76,
+      "profit_factor": 0.86,
+      "max_dd_pct": 8.08,
+      "sharpe": -3.81
+    },
+    {
+      "fold": 2,
+      "n_candles": 1701,
+      "start": "2026-07-22T09:45:00+00:00",
+      "end": "2026-08-12T14:15:00+00:00",
+      "pnl_pct": 2.0,
+      "trades": 49,
+      "win_rate": 51.02,
+      "profit_factor": 1.14,
+      "max_dd_pct": 4.19,
+      "sharpe": 2.06
+    },
+    {
+      "fold": 3,
+      "n_candles": 1701,
+      "start": "2026-08-12T14:20:00+00:00",
+      "end": "2026-09-02T14:45:00+00:00",
+      "pnl_pct": 3.47,
+      "trades": 43,
+      "win_rate": 46.51,
+      "profit_factor": 1.18,
+      "max_dd_pct": 7.54,
+      "sharpe": 2.67
+    },
+    {
+      "fold": 4,
+      "n_candles": 1705,
+      "start": "2026-09-02T14:50:00+00:00",
+      "end": "2026-09-24T15:35:00+00:00",
+      "pnl_pct": -0.88,
+      "trades": 46,
+      "win_rate": 43.48,
+      "profit_factor": 0.98,
+      "max_dd_pct": 6.13,
+      "sharpe": 0.4
+    }
+  ],
+  "mean_pnl_pct": 2.31,
+  "positive_folds": 3,
+  "total_folds": 5
+}

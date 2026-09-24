@@ -1,0 +1,537 @@
+{
+  "initial_balance": 10000.0,
+  "final_balance": 9230.0,
+  "total_pnl_rs": -770.0,
+  "total_pnl_pct": -7.7,
+  "total_trades": 353,
+  "wins": 132,
+  "losses": 220,
+  "win_rate": 37.39,
+  "gross_profit": 12800.6,
+  "gross_loss": 13217.53,
+  "profit_factor": 0.97,
+  "max_drawdown_pct": 15.71,
+  "sharpe_ratio": -1.07,
+  "avg_trade_pnl": -1.18,
+  "exits_by_reason": {
+    "max_hold": 95,
+    "stop_loss": 190,
+    "take_profit": 68
+  },
+  "costs_config": {
+    "spread_points": 5.0,
+    "commission_per_contract": 1.0,
+    "contract_multiplier": 0.2,
+    "contracts": 1.0,
+    "use_sltp": true,
+    "atr_mult_sl": 1.5,
+    "atr_mult_tp": 3.0
+  },
+  "trades": [
+    {
+      "side": "SELL",
+      "entry_time": "2026-04-17T11:35:00+00:00",
+      "exit_time": "2026-04-22T10:15:00+00:00",
+      "entry_price": 208780.0,
+      "exit_price": 207705.0,
+      "pnl_rs": 215.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-04-22T18:15:00+00:00",
+      "exit_time": "2026-04-23T10:15:00+00:00",
+      "entry_price": 204280.0,
+      "exit_price": 204691.0714,
+      "pnl_rs": -82.21,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-04-29T10:05:00+00:00",
+      "exit_time": "2026-04-29T10:45:00+00:00",
+      "entry_price": 198445.0,
+      "exit_price": 197657.1429,
+      "pnl_rs": 157.57,
+      "bars_held": 6,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-04-29T10:45:00+00:00",
+      "exit_time": "2026-04-29T15:40:00+00:00",
+      "entry_price": 197540.0,
+      "exit_price": 196867.8571,
+      "pnl_rs": 134.43,
+      "bars_held": 9,
+      "reason": "take_profit"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-04-30T11:45:00+00:00",
+      "exit_time": "2026-04-30T12:45:00+00:00",
+      "entry_price": 198485.0,
+      "exit_price": 197995.7143,
+      "pnl_rs": -97.86,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-04T13:45:00+00:00",
+      "exit_time": "2026-05-05T09:00:00+00:00",
+      "entry_price": 196545.0,
+      "exit_price": 196741.7857,
+      "pnl_rs": -39.36,
+      "bars_held": 8,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-07T10:35:00+00:00",
+      "exit_time": "2026-05-07T11:00:00+00:00",
+      "entry_price": 195395.0,
+      "exit_price": 194462.5,
+      "pnl_rs": 186.5,
+      "bars_held": 3,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-12T09:15:00+00:00",
+      "exit_time": "2026-05-12T12:30:00+00:00",
+      "entry_price": 191345.0,
+      "exit_price": 190467.1429,
+      "pnl_rs": 175.57,
+      "bars_held": 3,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-13T10:30:00+00:00",
+      "exit_time": "2026-05-13T10:55:00+00:00",
+      "entry_price": 188995.0,
+      "exit_price": 189464.4643,
+      "pnl_rs": -93.89,
+      "bars_held": 3,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-13T14:55:00+00:00",
+      "exit_time": "2026-05-13T15:45:00+00:00",
+      "entry_price": 188095.0,
+      "exit_price": 187307.1429,
+      "pnl_rs": 157.57,
+      "bars_held": 4,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-13T17:50:00+00:00",
+      "exit_time": "2026-05-14T09:00:00+00:00",
+      "entry_price": 186425.0,
+      "exit_price": 186948.5714,
+      "pnl_rs": -104.71,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-15T09:00:00+00:00",
+      "exit_time": "2026-05-15T11:10:00+00:00",
+      "entry_price": 185495.0,
+      "exit_price": 185680.0,
+      "pnl_rs": -37.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-19T10:00:00+00:00",
+      "exit_time": "2026-05-19T10:55:00+00:00",
+      "entry_price": 183750.0,
+      "exit_price": 184605.1786,
+      "pnl_rs": -171.04,
+      "bars_held": 9,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-05-28T17:45:00+00:00",
+      "exit_time": "2026-05-29T10:25:00+00:00",
+      "entry_price": 182995.0,
+      "exit_price": 182015.0,
+      "pnl_rs": 196.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-03T09:15:00+00:00",
+      "exit_time": "2026-06-03T10:40:00+00:00",
+      "entry_price": 179560.0,
+      "exit_price": 180351.9643,
+      "pnl_rs": -158.39,
+      "bars_held": 3,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-05T17:55:00+00:00",
+      "exit_time": "2026-06-08T09:00:00+00:00",
+      "entry_price": 176290.0,
+      "exit_price": 176840.3571,
+      "pnl_rs": -110.07,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-11T15:00:00+00:00",
+      "exit_time": "2026-06-11T15:10:00+00:00",
+      "entry_price": 178005.0,
+      "exit_price": 177416.6071,
+      "pnl_rs": -117.68,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-15T10:20:00+00:00",
+      "exit_time": "2026-06-15T11:45:00+00:00",
+      "entry_price": 181565.0,
+      "exit_price": 180777.3214,
+      "pnl_rs": -157.54,
+      "bars_held": 5,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-15T15:00:00+00:00",
+      "exit_time": "2026-06-16T09:20:00+00:00",
+      "entry_price": 177995.0,
+      "exit_price": 177725.0,
+      "pnl_rs": 54.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-17T09:00:00+00:00",
+      "exit_time": "2026-06-17T09:05:00+00:00",
+      "entry_price": 176065.0,
+      "exit_price": 176445.0,
+      "pnl_rs": -76.0,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-17T10:15:00+00:00",
+      "exit_time": "2026-06-17T11:05:00+00:00",
+      "entry_price": 178175.0,
+      "exit_price": 178460.0,
+      "pnl_rs": 57.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-17T15:00:00+00:00",
+      "exit_time": "2026-06-17T16:00:00+00:00",
+      "entry_price": 177395.0,
+      "exit_price": 177080.0,
+      "pnl_rs": 63.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-17T16:15:00+00:00",
+      "exit_time": "2026-06-17T16:35:00+00:00",
+      "entry_price": 176265.0,
+      "exit_price": 175244.6429,
+      "pnl_rs": 204.07,
+      "bars_held": 4,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-17T16:35:00+00:00",
+      "exit_time": "2026-06-17T17:40:00+00:00",
+      "entry_price": 175200.0,
+      "exit_price": 175165.0,
+      "pnl_rs": 7.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-18T09:00:00+00:00",
+      "exit_time": "2026-06-18T09:10:00+00:00",
+      "entry_price": 174355.0,
+      "exit_price": 174701.25,
+      "pnl_rs": -69.25,
+      "bars_held": 2,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-18T10:40:00+00:00",
+      "exit_time": "2026-06-18T11:30:00+00:00",
+      "entry_price": 175965.0,
+      "exit_price": 176395.0,
+      "pnl_rs": 86.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-18T15:30:00+00:00",
+      "exit_time": "2026-06-18T16:15:00+00:00",
+      "entry_price": 175425.0,
+      "exit_price": 175198.75,
+      "pnl_rs": -45.25,
+      "bars_held": 8,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-18T17:55:00+00:00",
+      "exit_time": "2026-06-19T09:00:00+00:00",
+      "entry_price": 175495.0,
+      "exit_price": 175371.6071,
+      "pnl_rs": -24.68,
+      "bars_held": 6,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-19T09:05:00+00:00",
+      "exit_time": "2026-06-19T09:50:00+00:00",
+      "entry_price": 174995.0,
+      "exit_price": 175219.6429,
+      "pnl_rs": -44.93,
+      "bars_held": 9,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-19T10:55:00+00:00",
+      "exit_time": "2026-06-19T11:00:00+00:00",
+      "entry_price": 174495.0,
+      "exit_price": 174891.0714,
+      "pnl_rs": -79.21,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-19T13:35:00+00:00",
+      "exit_time": "2026-06-19T14:15:00+00:00",
+      "entry_price": 174795.0,
+      "exit_price": 174955.3571,
+      "pnl_rs": -32.07,
+      "bars_held": 5,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-19T14:40:00+00:00",
+      "exit_time": "2026-06-19T15:30:00+00:00",
+      "entry_price": 175400.0,
+      "exit_price": 175370.0,
+      "pnl_rs": -6.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-19T16:40:00+00:00",
+      "exit_time": "2026-06-19T16:45:00+00:00",
+      "entry_price": 175035.0,
+      "exit_price": 175183.0357,
+      "pnl_rs": -29.61,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-19T18:15:00+00:00",
+      "exit_time": "2026-06-22T09:00:00+00:00",
+      "entry_price": 175405.0,
+      "exit_price": 175275.1786,
+      "pnl_rs": -25.96,
+      "bars_held": 2,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-22T09:00:00+00:00",
+      "exit_time": "2026-06-22T09:05:00+00:00",
+      "entry_price": 174045.0,
+      "exit_price": 174333.9286,
+      "pnl_rs": -57.79,
+      "bars_held": 1,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-22T10:05:00+00:00",
+      "exit_time": "2026-06-22T10:20:00+00:00",
+      "entry_price": 175800.0,
+      "exit_price": 177012.1429,
+      "pnl_rs": 242.43,
+      "bars_held": 3,
+      "reason": "take_profit"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-22T10:20:00+00:00",
+      "exit_time": "2026-06-22T10:30:00+00:00",
+      "entry_price": 177130.0,
+      "exit_price": 176568.9286,
+      "pnl_rs": -112.21,
+      "bars_held": 2,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-22T11:55:00+00:00",
+      "exit_time": "2026-06-22T12:45:00+00:00",
+      "entry_price": 177455.0,
+      "exit_price": 177070.7143,
+      "pnl_rs": -76.86,
+      "bars_held": 8,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-22T16:05:00+00:00",
+      "exit_time": "2026-06-22T16:30:00+00:00",
+      "entry_price": 177555.0,
+      "exit_price": 177393.5714,
+      "pnl_rs": -32.29,
+      "bars_held": 4,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-23T09:00:00+00:00",
+      "exit_time": "2026-06-23T09:05:00+00:00",
+      "entry_price": 175810.0,
+      "exit_price": 175287.8571,
+      "pnl_rs": 104.43,
+      "bars_held": 1,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-23T09:05:00+00:00",
+      "exit_time": "2026-06-23T09:55:00+00:00",
+      "entry_price": 175660.0,
+      "exit_price": 175415.0,
+      "pnl_rs": 49.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-23T11:00:00+00:00",
+      "exit_time": "2026-06-23T11:50:00+00:00",
+      "entry_price": 177015.0,
+      "exit_price": 177715.0,
+      "pnl_rs": 140.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-23T13:05:00+00:00",
+      "exit_time": "2026-06-23T13:55:00+00:00",
+      "entry_price": 178105.0,
+      "exit_price": 178120.0,
+      "pnl_rs": 3.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-23T15:25:00+00:00",
+      "exit_time": "2026-06-23T16:10:00+00:00",
+      "entry_price": 177910.0,
+      "exit_price": 178060.7143,
+      "pnl_rs": -30.14,
+      "bars_held": 9,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-23T16:30:00+00:00",
+      "exit_time": "2026-06-23T16:45:00+00:00",
+      "entry_price": 178380.0,
+      "exit_price": 178210.0,
+      "pnl_rs": -34.0,
+      "bars_held": 3,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-06-23T18:00:00+00:00",
+      "exit_time": "2026-06-24T09:00:00+00:00",
+      "entry_price": 178565.0,
+      "exit_price": 178427.6786,
+      "pnl_rs": -27.46,
+      "bars_held": 5,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-24T09:00:00+00:00",
+      "exit_time": "2026-06-24T09:05:00+00:00",
+      "entry_price": 177885.0,
+      "exit_price": 177483.9286,
+      "pnl_rs": 80.21,
+      "bars_held": 1,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-24T09:05:00+00:00",
+      "exit_time": "2026-06-24T09:15:00+00:00",
+      "entry_price": 177360.0,
+      "exit_price": 176805.7143,
+      "pnl_rs": 110.86,
+      "bars_held": 2,
+      "reason": "take_profit"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-24T09:20:00+00:00",
+      "exit_time": "2026-06-24T10:05:00+00:00",
+      "entry_price": 176625.0,
+      "exit_price": 177026.4286,
+      "pnl_rs": -80.29,
+      "bars_held": 9,
+      "reason": "stop_loss"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-06-24T14:20:00+00:00",
+      "exit_time": "2026-06-24T14:55:00+00:00",
+      "entry_price": 176475.0,
+      "exit_price": 176702.8571,
+      "pnl_rs": -45.57,
+      "bars_held": 7,
+      "reason": "stop_loss"
+    }
+  ],
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "source": "mt5",
+  "strategy": "VOLATILITY_BREAKOUT",
+  "n_candles": 8508
+}

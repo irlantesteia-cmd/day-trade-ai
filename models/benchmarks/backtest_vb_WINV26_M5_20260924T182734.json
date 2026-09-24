@@ -1,0 +1,529 @@
+{
+  "initial_balance": 10000.0,
+  "final_balance": 19404.75,
+  "total_pnl_rs": 9404.75,
+  "total_pnl_pct": 94.05,
+  "total_trades": 256,
+  "wins": 142,
+  "losses": 114,
+  "win_rate": 55.47,
+  "gross_profit": 29360.16,
+  "gross_loss": 19699.4,
+  "profit_factor": 1.49,
+  "max_drawdown_pct": 11.64,
+  "sharpe_ratio": 8.66,
+  "avg_trade_pnl": 37.74,
+  "costs_config": {
+    "spread_points": 5.0,
+    "commission_per_contract": 1.0,
+    "contract_multiplier": 0.2,
+    "contracts": 1.0
+  },
+  "trades": [
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T10:50:00+00:00",
+      "exit_time": "2026-01-01T11:40:00+00:00",
+      "entry_price": 157697.5249142429,
+      "exit_price": 162182.59441875515,
+      "pnl_rs": 897.01,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T13:25:00+00:00",
+      "exit_time": "2026-01-01T14:15:00+00:00",
+      "entry_price": 167287.50355822977,
+      "exit_price": 166700.93746305216,
+      "pnl_rs": -117.31,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T15:50:00+00:00",
+      "exit_time": "2026-01-01T16:40:00+00:00",
+      "entry_price": 168723.64569104428,
+      "exit_price": 168949.32393877392,
+      "pnl_rs": 45.14,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T16:40:00+00:00",
+      "exit_time": "2026-01-01T17:30:00+00:00",
+      "entry_price": 168959.32393877392,
+      "exit_price": 167545.52380258348,
+      "pnl_rs": -282.76,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-01T17:40:00+00:00",
+      "exit_time": "2026-01-01T18:30:00+00:00",
+      "entry_price": 167371.22135368633,
+      "exit_price": 166825.35911211983,
+      "pnl_rs": 109.17,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-01T19:10:00+00:00",
+      "exit_time": "2026-01-01T20:00:00+00:00",
+      "entry_price": 166078.40835002236,
+      "exit_price": 165891.89403241663,
+      "pnl_rs": 37.3,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T20:30:00+00:00",
+      "exit_time": "2026-01-01T21:20:00+00:00",
+      "entry_price": 167482.0041371164,
+      "exit_price": 169284.60550739977,
+      "pnl_rs": 360.52,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T22:05:00+00:00",
+      "exit_time": "2026-01-01T22:55:00+00:00",
+      "entry_price": 170213.56658551592,
+      "exit_price": 170839.60741693474,
+      "pnl_rs": 125.21,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-01T23:10:00+00:00",
+      "exit_time": "2026-01-02T00:00:00+00:00",
+      "entry_price": 171289.68548878425,
+      "exit_price": 171467.5879137587,
+      "pnl_rs": 35.58,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T00:55:00+00:00",
+      "exit_time": "2026-01-02T01:45:00+00:00",
+      "entry_price": 171852.5689720525,
+      "exit_price": 171974.30208126543,
+      "pnl_rs": 24.35,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T01:50:00+00:00",
+      "exit_time": "2026-01-02T02:40:00+00:00",
+      "entry_price": 172277.57321048138,
+      "exit_price": 174077.2183395389,
+      "pnl_rs": 359.93,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T03:15:00+00:00",
+      "exit_time": "2026-01-02T04:05:00+00:00",
+      "entry_price": 174826.06409584632,
+      "exit_price": 176024.91642003952,
+      "pnl_rs": 239.77,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T04:10:00+00:00",
+      "exit_time": "2026-01-02T05:00:00+00:00",
+      "entry_price": 176499.38387970152,
+      "exit_price": 175699.9113979307,
+      "pnl_rs": -159.89,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T05:45:00+00:00",
+      "exit_time": "2026-01-02T06:35:00+00:00",
+      "entry_price": 177288.61684051686,
+      "exit_price": 180259.547171581,
+      "pnl_rs": 594.19,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T06:35:00+00:00",
+      "exit_time": "2026-01-02T07:25:00+00:00",
+      "entry_price": 180269.547171581,
+      "exit_price": 180617.78083442227,
+      "pnl_rs": 69.65,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T07:30:00+00:00",
+      "exit_time": "2026-01-02T08:20:00+00:00",
+      "entry_price": 181241.5946657892,
+      "exit_price": 181483.9137225454,
+      "pnl_rs": 48.46,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T08:30:00+00:00",
+      "exit_time": "2026-01-02T09:20:00+00:00",
+      "entry_price": 182478.3395264349,
+      "exit_price": 184268.87087485226,
+      "pnl_rs": 358.11,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-02T11:40:00+00:00",
+      "exit_time": "2026-01-02T12:30:00+00:00",
+      "entry_price": 182831.4786560176,
+      "exit_price": 182666.29311800757,
+      "pnl_rs": 33.04,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-02T14:00:00+00:00",
+      "exit_time": "2026-01-02T14:25:00+00:00",
+      "entry_price": 182181.30354650054,
+      "exit_price": 183027.6292076397,
+      "pnl_rs": -169.27,
+      "bars_held": 5,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T14:25:00+00:00",
+      "exit_time": "2026-01-02T15:15:00+00:00",
+      "entry_price": 183027.6292076397,
+      "exit_price": 181748.29490109187,
+      "pnl_rs": -255.87,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T19:20:00+00:00",
+      "exit_time": "2026-01-02T20:10:00+00:00",
+      "entry_price": 182983.30028225778,
+      "exit_price": 183052.6597622519,
+      "pnl_rs": 13.87,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-02T20:30:00+00:00",
+      "exit_time": "2026-01-02T21:20:00+00:00",
+      "entry_price": 183529.63953314733,
+      "exit_price": 183512.03184466026,
+      "pnl_rs": -3.52,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-02T21:30:00+00:00",
+      "exit_time": "2026-01-02T22:20:00+00:00",
+      "entry_price": 182217.5323056893,
+      "exit_price": 181672.99228675925,
+      "pnl_rs": 108.91,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T00:15:00+00:00",
+      "exit_time": "2026-01-03T01:05:00+00:00",
+      "entry_price": 180966.32976936165,
+      "exit_price": 180782.65408431698,
+      "pnl_rs": 36.74,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T01:40:00+00:00",
+      "exit_time": "2026-01-03T02:30:00+00:00",
+      "entry_price": 180069.02492531808,
+      "exit_price": 179678.99331073323,
+      "pnl_rs": 78.01,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T02:30:00+00:00",
+      "exit_time": "2026-01-03T03:20:00+00:00",
+      "entry_price": 179668.99331073323,
+      "exit_price": 178286.5689372964,
+      "pnl_rs": 276.48,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T03:20:00+00:00",
+      "exit_time": "2026-01-03T04:10:00+00:00",
+      "entry_price": 178276.5689372964,
+      "exit_price": 179928.87988014327,
+      "pnl_rs": -330.46,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T04:45:00+00:00",
+      "exit_time": "2026-01-03T05:35:00+00:00",
+      "entry_price": 180635.27997582924,
+      "exit_price": 179797.85272088996,
+      "pnl_rs": -167.49,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T08:50:00+00:00",
+      "exit_time": "2026-01-03T09:25:00+00:00",
+      "entry_price": 179352.5557600928,
+      "exit_price": 180273.78456339863,
+      "pnl_rs": -184.25,
+      "bars_held": 7,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T09:25:00+00:00",
+      "exit_time": "2026-01-03T10:15:00+00:00",
+      "entry_price": 180273.78456339863,
+      "exit_price": 180620.95469046524,
+      "pnl_rs": 69.43,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T11:55:00+00:00",
+      "exit_time": "2026-01-03T12:45:00+00:00",
+      "entry_price": 181251.54738452955,
+      "exit_price": 181555.94921433384,
+      "pnl_rs": 60.88,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T15:05:00+00:00",
+      "exit_time": "2026-01-03T15:55:00+00:00",
+      "entry_price": 179833.82292269194,
+      "exit_price": 179783.3313369378,
+      "pnl_rs": 10.1,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T16:00:00+00:00",
+      "exit_time": "2026-01-03T16:50:00+00:00",
+      "entry_price": 179542.58209178728,
+      "exit_price": 179578.87564411966,
+      "pnl_rs": -7.26,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T17:35:00+00:00",
+      "exit_time": "2026-01-03T18:25:00+00:00",
+      "entry_price": 180292.98883191688,
+      "exit_price": 180654.57253552234,
+      "pnl_rs": 72.32,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T18:25:00+00:00",
+      "exit_time": "2026-01-03T19:15:00+00:00",
+      "entry_price": 180664.57253552234,
+      "exit_price": 180604.48387087416,
+      "pnl_rs": -12.02,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T19:25:00+00:00",
+      "exit_time": "2026-01-03T19:40:00+00:00",
+      "entry_price": 181253.29433627264,
+      "exit_price": 179959.01779489228,
+      "pnl_rs": -258.86,
+      "bars_held": 3,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T19:40:00+00:00",
+      "exit_time": "2026-01-03T20:30:00+00:00",
+      "entry_price": 179959.01779489228,
+      "exit_price": 179838.17995793192,
+      "pnl_rs": 24.17,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T21:40:00+00:00",
+      "exit_time": "2026-01-03T22:30:00+00:00",
+      "entry_price": 179222.21557765928,
+      "exit_price": 178904.32778946424,
+      "pnl_rs": 63.58,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-03T22:35:00+00:00",
+      "exit_time": "2026-01-03T23:05:00+00:00",
+      "entry_price": 178590.85701497874,
+      "exit_price": 179771.24146258546,
+      "pnl_rs": -236.08,
+      "bars_held": 6,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-03T23:05:00+00:00",
+      "exit_time": "2026-01-03T23:55:00+00:00",
+      "entry_price": 179771.24146258546,
+      "exit_price": 181141.85050952368,
+      "pnl_rs": 274.12,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-04T01:25:00+00:00",
+      "exit_time": "2026-01-04T02:15:00+00:00",
+      "entry_price": 180391.6681994476,
+      "exit_price": 180471.65068800328,
+      "pnl_rs": -16.0,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T03:30:00+00:00",
+      "exit_time": "2026-01-04T04:20:00+00:00",
+      "entry_price": 180887.5752776552,
+      "exit_price": 180668.98953282437,
+      "pnl_rs": -43.72,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T04:35:00+00:00",
+      "exit_time": "2026-01-04T05:25:00+00:00",
+      "entry_price": 181407.47082979808,
+      "exit_price": 180650.77386303,
+      "pnl_rs": -151.34,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-04T05:35:00+00:00",
+      "exit_time": "2026-01-04T06:25:00+00:00",
+      "entry_price": 180300.3452528039,
+      "exit_price": 180975.87386953385,
+      "pnl_rs": -135.11,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T07:20:00+00:00",
+      "exit_time": "2026-01-04T08:10:00+00:00",
+      "entry_price": 181165.50013040897,
+      "exit_price": 182264.28293517916,
+      "pnl_rs": 219.76,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T08:10:00+00:00",
+      "exit_time": "2026-01-04T09:00:00+00:00",
+      "entry_price": 182274.28293517916,
+      "exit_price": 182064.91503972816,
+      "pnl_rs": -41.87,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T10:35:00+00:00",
+      "exit_time": "2026-01-04T11:15:00+00:00",
+      "entry_price": 183208.380084036,
+      "exit_price": 181536.21695612013,
+      "pnl_rs": -334.43,
+      "bars_held": 8,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-04T11:15:00+00:00",
+      "exit_time": "2026-01-04T12:05:00+00:00",
+      "entry_price": 181536.21695612013,
+      "exit_price": 179933.05062640304,
+      "pnl_rs": 320.63,
+      "bars_held": 10,
+      "reason": "max_hold"
+    },
+    {
+      "side": "SELL",
+      "entry_time": "2026-01-04T13:55:00+00:00",
+      "exit_time": "2026-01-04T14:40:00+00:00",
+      "entry_price": 179410.2691867782,
+      "exit_price": 181257.20254594088,
+      "pnl_rs": -369.39,
+      "bars_held": 9,
+      "reason": "opposite_signal"
+    },
+    {
+      "side": "BUY",
+      "entry_time": "2026-01-04T14:40:00+00:00",
+      "exit_time": "2026-01-04T15:30:00+00:00",
+      "entry_price": 181257.20254594088,
+      "exit_price": 181592.04523022432,
+      "pnl_rs": 66.97,
+      "bars_held": 10,
+      "reason": "max_hold"
+    }
+  ],
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "source": "synthetic",
+  "strategy": "VOLATILITY_BREAKOUT",
+  "n_candles": 5000
+}

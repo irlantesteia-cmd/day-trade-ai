@@ -2,7 +2,7 @@
 
 Documento vivo. Atualizar a cada milestone concluido.
 
-Ultima atualizacao: pos-Milestone 20 (2026-09-24).
+Ultima atualizacao: pos-Milestone 21 (2026-09-24).
 
 ## Legenda
 
@@ -67,6 +67,10 @@ Ver `docs/STATUS.md` para detalhes. Resumo:
 - **ADR-022**: previsao de volatilidade nao generaliza uniformemente.
 - **ADR-023**: sinal de volatilidade real **para o WIN**, especifico de
   horizonte curto (H=3..5). Edge modesto (+3 a +6 p.p.).
+- **ADR-025**: VolatilityBreakoutStrategy testada. Edge preditivo do
+  ADR-023 **nao converte em PnL robusto**: full-window +12.39%, mas
+  walk-forward 10 janelas mostra concentracao em 1 fold (+13.79% no
+  fold 0; folds 1-9 somados = -2.28%). **Nao operar.**
 
 ## Proximos Milestones Possiveis
 
