@@ -216,3 +216,118 @@ def test_live_engine_risk_engine_uses_balance_from_portfolio():
     engine.process_bar({"symbol": "WIN", "close": 100.0})
 
     assert risk_engine.calls[0]["account_balance"] == 50000.0
+
+
+
+# ---------------------------------------------------------------------------
+# Testes de sincronizacao de estado (Milestone 11)
+# ---------------------------------------------------------------------------
+
+class SpyRiskManager:
+    """RiskManager real (nao mock) que registra chamadas a update_state."""
+
+    def __init__(self, max_open_positions: int = 3):
+        self.calls = []
+        self.daily_pnl_pct = 0.0
+        self.open_positions_count = 0
+        self.max_open_positions = max_open_positions
+
+    def update_state(self, daily_pnl_pct: float, open_positions_count: int):
+        self.calls.append({
+            "daily_pnl_pct": daily_pnl_pct,
+            "open_positions_count": open_positions_count,
+        })
+        self.daily_pnl_pct = daily_pnl_pct
+        self.open_positions_count = open_positions_count
+
+    def can_take_trade(self) -> bool:
+        if self.open_positions_count >= self.max_open_positions:
+            return False
+        return True
+
+
+class RiskEngineWithSpyManager:
+    """RiskEngine fake que usa SpyRiskManager e respeita can_take_trade."""
+
+    def __init__(self, spy_manager):
+        self.manager = spy_manager
+
+    def generate_order(self, signal, current_price, account_balance):
+        if not self.manager.can_take_trade():
+            return None
+        return Order(
+            symbol=signal.symbol,
+            direction=signal.direction,
+            quantity=1.0,
+            price=current_price,
+            status=OrderStatus.PENDING,
+        )
+
+
+def test_risk_manager_update_state_called_each_bar():
+    """update_state deve ser chamado a cada barra processada."""
+    spy = SpyRiskManager()
+    risk_engine = RiskEngineWithSpyManager(spy)
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=risk_engine,
+    )
+    engine.start()
+
+    engine.process_bar({"symbol": "WIN", "close": 100.0})
+    engine.process_bar({"symbol": "WIN", "close": 101.0})
+
+    assert len(spy.calls) == 2
+    for call in spy.calls:
+        assert call["daily_pnl_pct"] == 0.0  # limitacao documentada
+        assert call["open_positions_count"] == 0  # portfolio vazio
+
+
+def test_risk_manager_blocks_when_max_positions_reached():
+    """Se portfolio tem N posicoes abertas >= max_open_positions, rejeita."""
+    spy = SpyRiskManager(max_open_positions=2)
+    risk_engine = RiskEngineWithSpyManager(spy)
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=risk_engine,
+    )
+    engine.start()
+
+    # Simula 2 posicoes abertas no portfolio do execution engine
+    engine.execution_engine.portfolio = type("P", (), {
+        "positions": {"WIN": 1, "PETR4": 2},
+        "equity": 10000.0,
+    })()
+
+    order = engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert order is None
+    assert len(spy.calls) == 1
+    assert spy.calls[0]["open_positions_count"] == 2
+
+
+def test_risk_manager_allows_when_below_max_positions():
+    """Com N < max_open_positions, permite gerar Order."""
+    spy = SpyRiskManager(max_open_positions=3)
+    risk_engine = RiskEngineWithSpyManager(spy)
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=risk_engine,
+    )
+    engine.start()
+
+    engine.execution_engine.portfolio = type("P", (), {
+        "positions": {"WIN": 1},
+        "equity": 10000.0,
+    })()
+
+    order = engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert order is not None
+    assert spy.calls[0]["open_positions_count"] == 1

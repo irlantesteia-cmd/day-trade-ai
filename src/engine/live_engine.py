@@ -9,12 +9,17 @@ Suporta dois modos de operacao:
      - Usado quando risk_engine=None
 
   2. NOVO (risk_engine + execute_order):
+     - risk_engine.manager.update_state(...) sincronizado com estado real
      - risk_engine.generate_order(signal, price, balance) -> Order | None
      - execution_engine.execute_order(order, bar)
      - Usado quando risk_engine != None
 
 O modo novo implementa o fluxo da secao 33 do framework:
     Signal -> Risk Check -> OrderIntent -> Execution -> Broker -> Order
+
+Limitacao conhecida (ADR-015):
+  Apenas `open_positions_count` e sincronizado. `daily_pnl_pct` permanece
+  0.0 porque requer um DailyPnLTracker (subsistema dedicado).
 """
 import time
 from typing import Dict, Any, Optional
@@ -49,6 +54,10 @@ class LiveTradingEngine:
     def stop(self) -> None:
         self.is_running = False
 
+    # ------------------------------------------------------------------
+    # Helpers internos
+    # ------------------------------------------------------------------
+
     def _current_price(self, bar: Dict[str, Any]) -> float:
         return float(bar.get("close", 0.0))
 
@@ -65,6 +74,46 @@ class LiveTradingEngine:
                 except (TypeError, ValueError):
                     continue
         return 10000.0
+
+    def _current_open_positions(self) -> int:
+        """Conta posicoes abertas no portfolio do execution_engine."""
+        portfolio = getattr(self.execution_engine, "portfolio", None)
+        if portfolio is None:
+            return 0
+        positions = getattr(portfolio, "positions", None)
+        if isinstance(positions, dict):
+            return len(positions)
+        return 0
+
+    def _sync_risk_manager_state(self) -> None:
+        """
+        Sincroniza o RiskManager interno do RiskEngine com o estado real
+        do portfolio. Chamado antes de generate_order.
+
+        Notas (ver ADR-015):
+          - open_positions_count e lido de execution_engine.portfolio.positions
+          - daily_pnl_pct permanece 0.0 (DailyPnLTracker fica para milestone
+            futuro)
+        """
+        if self.risk_engine is None:
+            return
+        manager = getattr(self.risk_engine, "manager", None)
+        if manager is None or not hasattr(manager, "update_state"):
+            return
+
+        open_positions = self._current_open_positions()
+        try:
+            manager.update_state(
+                daily_pnl_pct=0.0,
+                open_positions_count=open_positions,
+            )
+        except Exception:
+            # Nao deixar falha de sincronizacao derrubar o pipeline
+            self.metrics_collector.increment_counter("total_errors", 1.0)
+
+    # ------------------------------------------------------------------
+    # Pipeline principal
+    # ------------------------------------------------------------------
 
     def process_bar(self, bar: Dict[str, Any]) -> Optional[Order]:
         if not self.is_running:
@@ -95,6 +144,9 @@ class LiveTradingEngine:
     ) -> Optional[Order]:
         price = self._current_price(bar)
         balance = self._current_balance()
+
+        # Sincroniza estado do RiskManager antes de gerar Order
+        self._sync_risk_manager_state()
 
         try:
             order = self.risk_engine.generate_order(
