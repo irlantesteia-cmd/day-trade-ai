@@ -13,6 +13,7 @@ from src.domain.models import Order, Signal
 from src.engine.kill_switch import KillSwitch
 from src.engine.live_engine import LiveTradingEngine
 from src.engine.mt5_bridge import MT5ExecutionEngine
+from src.risk.engine import RiskEngine
 from src.telemetry.alerts import AlertManager
 from src.telemetry.collector import MetricsCollector
 from src.telemetry.health import SystemHealthMonitor
@@ -212,6 +213,7 @@ def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> D
     strategy = _load_strategy()
     auditor = TradeAuditor()
     retrainer = AutoRetrainer(min_samples=5)
+    risk_engine = RiskEngine()
 
     if use_mt5 or cfg.trading_mode in ["live", "paper_mt5"]:
         mt5_adapter = MT5Adapter()
@@ -226,6 +228,7 @@ def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> D
         execution_engine=execution,
         metrics_collector=metrics,
         health_monitor=health,
+        risk_engine=risk_engine,
     )
 
     kill_switch = KillSwitch(engine, max_daily_loss=cfg.max_daily_loss)
