@@ -5,11 +5,12 @@ import pytest
 from src.engine.live_engine import LiveTradingEngine
 from src.domain.models import Signal, Order
 from src.domain.enums import SignalDirection, OrderStatus
+from src.events import Event, EventBus, EventType
 from src.telemetry.collector import MetricsCollector
 
 
 # ---------------------------------------------------------------------------
-# Doubles (usados nos testes legado e novo)
+# Doubles base
 # ---------------------------------------------------------------------------
 
 class DummyStrategy:
@@ -48,6 +49,7 @@ class DummyExecutionEngine:
 
 class DummyRiskEngine:
     """Simula RiskEngine: gera Order com SL/TP e quantidade."""
+
     def __init__(self, produce_order: bool = True):
         self.produce_order = produce_order
         self.calls = []
@@ -73,6 +75,7 @@ class DummyRiskEngine:
 
 class DummyExecutionEngineWithExecuteOrder:
     """Execution engine que expoe execute_order (novo contrato)."""
+
     def __init__(self):
         self.orders_received = []
 
@@ -169,10 +172,8 @@ def test_live_engine_risk_engine_generates_order_and_executes():
     assert order.quantity == 2.0
     assert order.stop_loss == 95.0
     assert order.take_profit == 110.0
-    # Order que o execution engine recebeu deve ser a mesma
     assert len(execution.orders_received) == 1
     assert execution.orders_received[0] is order
-    # Risk engine foi chamado 1 vez
     assert len(risk_engine.calls) == 1
     assert risk_engine.calls[0]["current_price"] == 100.0
 
@@ -216,7 +217,6 @@ def test_live_engine_risk_engine_uses_balance_from_portfolio():
     engine.process_bar({"symbol": "WIN", "close": 100.0})
 
     assert risk_engine.calls[0]["account_balance"] == 50000.0
-
 
 
 # ---------------------------------------------------------------------------
@@ -281,8 +281,8 @@ def test_risk_manager_update_state_called_each_bar():
 
     assert len(spy.calls) == 2
     for call in spy.calls:
-        assert call["daily_pnl_pct"] == 0.0  # limitacao documentada
-        assert call["open_positions_count"] == 0  # portfolio vazio
+        assert call["daily_pnl_pct"] == 0.0
+        assert call["open_positions_count"] == 0
 
 
 def test_risk_manager_blocks_when_max_positions_reached():
@@ -297,7 +297,6 @@ def test_risk_manager_blocks_when_max_positions_reached():
     )
     engine.start()
 
-    # Simula 2 posicoes abertas no portfolio do execution engine
     engine.execution_engine.portfolio = type("P", (), {
         "positions": {"WIN": 1, "PETR4": 2},
         "equity": 10000.0,
@@ -331,3 +330,93 @@ def test_risk_manager_allows_when_below_max_positions():
 
     assert order is not None
     assert spy.calls[0]["open_positions_count"] == 1
+
+
+# ---------------------------------------------------------------------------
+# Testes de integracao com EventBus (Milestone 12)
+# ---------------------------------------------------------------------------
+
+def test_event_bus_publishes_signal_generated():
+    bus = EventBus()
+    received = []
+    bus.subscribe(EventType.SIGNAL_GENERATED, lambda e: received.append(e))
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=DummyRiskEngine(produce_order=True),
+        event_bus=bus,
+    )
+    engine.start()
+    engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert len(received) == 1
+    assert received[0].payload["symbol"] == "WIN"
+
+
+def test_event_bus_publishes_order_filled():
+    bus = EventBus()
+    received = []
+    bus.subscribe(EventType.ORDER_FILLED, lambda e: received.append(e))
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=DummyRiskEngine(produce_order=True),
+        event_bus=bus,
+    )
+    engine.start()
+    engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert len(received) == 1
+    assert received[0].payload["symbol"] == "WIN"
+
+
+def test_event_bus_publishes_risk_rejected():
+    bus = EventBus()
+    received = []
+    bus.subscribe(EventType.RISK_REJECTED, lambda e: received.append(e))
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=DummyRiskEngine(produce_order=False),
+        event_bus=bus,
+    )
+    engine.start()
+    engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert len(received) == 1
+    assert received[0].payload["symbol"] == "WIN"
+
+
+def test_event_bus_publishes_no_signal_when_strategy_silent():
+    """Sem sinal, nenhum evento eh publicado."""
+    bus = EventBus()
+    received = []
+    bus.subscribe_all(lambda e: received.append(e))
+
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=False),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=DummyRiskEngine(produce_order=True),
+        event_bus=bus,
+    )
+    engine.start()
+    engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert received == []
+
+
+def test_event_bus_none_does_not_break():
+    """Sem event_bus (default), pipeline continua funcionando."""
+    engine = LiveTradingEngine(
+        strategy=DummyStrategy(should_signal=True),
+        execution_engine=DummyExecutionEngineWithExecuteOrder(),
+        risk_engine=DummyRiskEngine(produce_order=True),
+        # event_bus ausente
+    )
+    engine.start()
+    order = engine.process_bar({"symbol": "WIN", "close": 100.0})
+
+    assert order is not None

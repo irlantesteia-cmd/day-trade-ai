@@ -14,6 +14,11 @@ Suporta dois modos de operacao:
      - execution_engine.execute_order(order, bar)
      - Usado quando risk_engine != None
 
+Publica eventos no EventBus (se fornecido):
+  - SIGNAL_GENERATED   quando strategy emite sinal
+  - RISK_REJECTED      quando generate_order retorna None
+  - ORDER_FILLED       quando execution retorna Order
+
 O modo novo implementa o fluxo da secao 33 do framework:
     Signal -> Risk Check -> OrderIntent -> Execution -> Broker -> Order
 
@@ -25,6 +30,7 @@ import time
 from typing import Dict, Any, Optional
 
 from src.domain.models import Order
+from src.events import Event, EventBus, EventType
 from src.telemetry.collector import MetricsCollector
 from src.telemetry.health import SystemHealthMonitor
 
@@ -38,11 +44,13 @@ class LiveTradingEngine:
         metrics_collector: Optional[MetricsCollector] = None,
         health_monitor: Optional[SystemHealthMonitor] = None,
         risk_engine: Any = None,
+        event_bus: Optional[EventBus] = None,
     ):
         self.strategy = strategy
         self.risk_manager = risk_manager
         self.execution_engine = execution_engine
         self.risk_engine = risk_engine
+        self.event_bus = event_bus
         self.metrics_collector = metrics_collector or MetricsCollector()
         self.health_monitor = health_monitor or SystemHealthMonitor(self.metrics_collector)
         self.is_running = False
@@ -53,6 +61,20 @@ class LiveTradingEngine:
 
     def stop(self) -> None:
         self.is_running = False
+
+    # ------------------------------------------------------------------
+    # Publicacao de eventos (best-effort)
+    # ------------------------------------------------------------------
+
+    def _publish(self, event_type: EventType, payload: Dict[str, Any]) -> None:
+        """Publica evento se event_bus estiver configurado. Best-effort."""
+        if self.event_bus is None:
+            return
+        try:
+            self.event_bus.publish(Event(event_type=event_type, payload=payload))
+        except Exception:
+            # Falha de publicacao nao pode derrubar o pipeline
+            self.metrics_collector.increment_counter("event_publish_errors", 1.0)
 
     # ------------------------------------------------------------------
     # Helpers internos
@@ -131,6 +153,11 @@ class LiveTradingEngine:
             return None
 
         self.metrics_collector.increment_counter("signals_generated", 1.0)
+        self._publish(EventType.SIGNAL_GENERATED, {
+            "symbol": getattr(signal, "symbol", None),
+            "direction": str(getattr(signal, "direction", None)),
+            "confidence": getattr(signal, "confidence", None),
+        })
 
         # 2. Caminho NOVO: risk_engine gera Order
         if self.risk_engine is not None:
@@ -156,10 +183,19 @@ class LiveTradingEngine:
             )
         except Exception:
             self.metrics_collector.increment_counter("total_errors", 1.0)
+            self._publish(EventType.SYSTEM_ERROR, {
+                "component": "risk_engine",
+                "error": "generate_order raised",
+            })
             raise
 
         if order is None:
             self.metrics_collector.increment_counter("signals_rejected_risk", 1.0)
+            self._publish(EventType.RISK_REJECTED, {
+                "symbol": getattr(signal, "symbol", None),
+                "price": price,
+                "open_positions": self._current_open_positions(),
+            })
             duration_ms = (time.perf_counter() - start_time) * 1000.0
             self.metrics_collector.record_latency("execution_time", duration_ms)
             return None
@@ -172,8 +208,19 @@ class LiveTradingEngine:
                 # Fallback: broker direto
                 executed = self.execution_engine.execute_signal(signal, bar)
             self.metrics_collector.increment_counter("orders_executed", 1.0)
+            self._publish(EventType.ORDER_FILLED, {
+                "order_id": getattr(executed, "order_id", None),
+                "symbol": getattr(executed, "symbol", None),
+                "price": getattr(executed, "price", None),
+                "quantity": getattr(executed, "quantity", None),
+                "status": str(getattr(executed, "status", None)),
+            })
         except Exception:
             self.metrics_collector.increment_counter("total_errors", 1.0)
+            self._publish(EventType.SYSTEM_ERROR, {
+                "component": "execution_engine",
+                "error": "execute_order raised",
+            })
             raise
         finally:
             self.metrics_collector.increment_counter("total_operations", 1.0)
@@ -191,6 +238,10 @@ class LiveTradingEngine:
 
         if not is_approved:
             self.metrics_collector.increment_counter("signals_rejected_risk", 1.0)
+            self._publish(EventType.RISK_REJECTED, {
+                "symbol": getattr(signal, "symbol", None),
+                "reason": "legacy_risk_manager_rejected",
+            })
             duration_ms = (time.perf_counter() - start_time) * 1000.0
             self.metrics_collector.record_latency("execution_time", duration_ms)
             return None
@@ -199,8 +250,18 @@ class LiveTradingEngine:
         try:
             order = self.execution_engine.execute_signal(signal, bar)
             self.metrics_collector.increment_counter("orders_executed", 1.0)
+            self._publish(EventType.ORDER_FILLED, {
+                "order_id": getattr(order, "order_id", None),
+                "symbol": getattr(order, "symbol", None),
+                "price": getattr(order, "price", None),
+                "status": str(getattr(order, "status", None)),
+            })
         except Exception:
             self.metrics_collector.increment_counter("total_errors", 1.0)
+            self._publish(EventType.SYSTEM_ERROR, {
+                "component": "execution_engine",
+                "error": "execute_signal raised",
+            })
             raise
         finally:
             self.metrics_collector.increment_counter("total_operations", 1.0)
