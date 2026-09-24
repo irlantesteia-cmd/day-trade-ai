@@ -7,9 +7,9 @@ Caracteristicas:
   - Modelo versionado via src/models/registry.py (ModelRegistry)
 
 Uso:
-    python scripts/train_model_v3.py                        # sintetico
-    python scripts/train_model_v3.py --from-mt5             # dados reais
-    python scripts/train_model_v3.py --from-mt5 --n 20000 --symbol "WIN$"
+    python scripts/train_model_v3.py                        # basic, sintetico
+    python scripts/train_model_v3.py --from-mt5             # basic, MT5
+    python scripts/train_model_v3.py --from-mt5 --feature-set technical
 """
 import argparse
 import os
@@ -24,16 +24,18 @@ from src.domain.models import Candle
 from src.features.sets import (
     FeatureSetRegistry,
     records_from_candles,
+    records_from_candles_with_indicators,
     register_default_sets,
 )
+from src.indicators.engine import IndicatorEngine
 from src.models.dataset import DatasetBuilder
 from src.models.logistic import LogisticRegressionModel
 from src.models.registry import ModelMetadata, ModelRegistry
-from src.validation.splitter import OutOfSampleSplitter, WalkForwardSplitter
+from src.validation.splitter import WalkForwardSplitter
 
 
 # ---------------------------------------------------------------------------
-# Padronizacao (z-score) — calculada no treino, aplicada no teste
+# Padronizacao (z-score)
 # ---------------------------------------------------------------------------
 
 def fit_scaler(X: List[List[float]]) -> Tuple[List[float], List[float]]:
@@ -58,7 +60,7 @@ def apply_scaler(X: List[List[float]], means: List[float], stds: List[float]) ->
 
 
 # ---------------------------------------------------------------------------
-# Fonte de dados
+# Fontes de dados
 # ---------------------------------------------------------------------------
 
 def candles_sinteticos(n: int = 5000) -> List[Candle]:
@@ -162,7 +164,6 @@ def run_walk_forward(
     epochs: int,
     lr: float,
 ) -> List[Dict]:
-    """Roda walk-forward. Retorna lista de resultados por fold."""
     splitter = WalkForwardSplitter(
         train_window=train_window,
         test_window=test_window,
@@ -211,10 +212,19 @@ def main():
     parser.add_argument("--lr", type=float, default=0.3)
     parser.add_argument("--wf-train", type=int, default=500)
     parser.add_argument("--wf-test", type=int, default=100)
-    parser.add_argument("--model-id", default="logistic_v3")
+    parser.add_argument(
+        "--feature-set",
+        choices=["basic", "technical"],
+        default="basic",
+        help="Qual FeatureSet usar (basic v1 ou technical v1)",
+    )
+    parser.add_argument("--model-id", default=None,
+                        help="Default: logistic_v3_<feature_set>")
     parser.add_argument("--model-version", default="v1")
     parser.add_argument("--registry-dir", default="models/registry")
     args = parser.parse_args()
+
+    model_id = args.model_id or f"logistic_v3_{args.feature_set}"
 
     # 1. Carregar candles
     if args.from_mt5:
@@ -226,20 +236,32 @@ def main():
 
     print(f"Candles: {len(candles)}")
 
-    # 2. Gerar features via FeatureSet
+    # 2. Selecionar feature set + metodo de geracao de records
     reg = FeatureSetRegistry()
     register_default_sets(reg)
-    fs = reg.get("basic", "v1")
-    print(f"FeatureSet: {fs.name} v{fs.version} ({len(fs.feature_keys)} features)")
 
-    records = records_from_candles(candles, fs, min_history=6)
-    print(f"Records gerados: {len(records)}")
+    if args.feature_set == "technical":
+        fs = reg.get("technical", "v1")
+        indicator_engine = IndicatorEngine()
+        records = records_from_candles_with_indicators(
+            candles, fs, indicator_engine, min_history=30
+        )
+        print(f"FeatureSet: {fs.name} v{fs.version} ({len(fs.feature_keys)} features)")
+        print(f"Records gerados (com indicadores): {len(records)}")
+    else:
+        fs = reg.get("basic", "v1")
+        records = records_from_candles(candles, fs, min_history=6)
+        print(f"FeatureSet: {fs.name} v{fs.version} ({len(fs.feature_keys)} features)")
+        print(f"Records gerados: {len(records)}")
 
     # 3. Construir dataset
+    dataset_version = (
+        f"{fs.name}_{fs.version}_h{args.horizon}_t{args.threshold}_{len(records)}"
+    )
     builder = DatasetBuilder(
         target_horizon=args.horizon,
         threshold=args.threshold,
-        dataset_version=f"basic_v1_h{args.horizon}_t{args.threshold}_{len(records)}",
+        dataset_version=dataset_version,
     )
     ds = builder.build_binary_classification_dataset(
         records=records,
@@ -291,7 +313,7 @@ def main():
 
     # 6. Salvar via ModelRegistry
     metadata = ModelMetadata(
-        model_id=args.model_id,
+        model_id=model_id,
         model_version=args.model_version,
         dataset_version=ds.dataset_version,
         feature_version=f"{fs.name}_{fs.version}",
@@ -307,6 +329,7 @@ def main():
             "threshold": args.threshold,
             "wf_train": args.wf_train,
             "wf_test": args.wf_test,
+            "feature_set": args.feature_set,
         },
         metrics={
             "mean_edge_pp": mean_edge,
@@ -319,7 +342,7 @@ def main():
     registry = ModelRegistry(root_dir=args.registry_dir)
     entry = registry.save(final_model, metadata)
 
-    # 7. Salvar scaling (means/stds) junto ao modelo
+    # 7. Salvar scaling junto ao modelo
     import joblib
     joblib.dump(
         {"means": means, "stds": stds, "feature_keys": list(fs.feature_keys)},
@@ -333,7 +356,7 @@ def main():
     print(f"\nPara carregar em producao:")
     print(f"  from src.models.registry import ModelRegistry")
     print(f"  reg = ModelRegistry()")
-    print(f"  model, meta = reg.load('{args.model_id}', '{args.model_version}')")
+    print(f"  model, meta = reg.load('{model_id}', '{args.model_version}')")
 
 
 if __name__ == "__main__":

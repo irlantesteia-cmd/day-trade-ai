@@ -4,8 +4,10 @@ Feature Sets nomeados e versionados.
 Um FeatureSet agrupa extratores de features sob um nome+versao unicos,
 permitindo que datasets e modelos referenciem qual conjunto foi usado.
 
-Tambem fornece um helper para converter uma serie de Candles em uma lista
-de records (dicts) compativel com o DatasetBuilder.
+Helpers:
+  - records_from_candles(candles, fs): features sem indicadores
+  - records_from_candles_with_indicators(candles, fs, indicator_engine):
+    calcula indicadores por candle (sem look-ahead) e aplica features
 """
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
@@ -16,6 +18,11 @@ from src.features.pipeline import FeaturePipeline
 from src.features.price_action import (
     CandleMorphologyExtractor,
     LogReturnExtractor,
+)
+from src.features.technical import (
+    ATRNormalizedExtractor,
+    NormalizedRSIExtractor,
+    SMADistanceExtractor,
 )
 from src.features.temporal import TimeOfDayExtractor
 
@@ -89,12 +96,33 @@ def basic_v1() -> FeatureSet:
     )
 
 
+def technical_v1() -> FeatureSet:
+    """
+    Conjunto com features baseadas em indicadores tecnicos.
+    Requer que records_from_candles_with_indicators() seja usado.
+    """
+    return FeatureSet(
+        name="technical",
+        version="v1",
+        extractors=[
+            LogReturnExtractor(period=1),
+            LogReturnExtractor(period=3),
+            CandleMorphologyExtractor(),
+            NormalizedRSIExtractor(),
+            SMADistanceExtractor(),
+            ATRNormalizedExtractor(),
+        ],
+        description="Log returns (1/3) + morfologia + RSI/SMA/ATR normalizados",
+    )
+
+
 def register_default_sets(registry: FeatureSetRegistry) -> None:
     registry.register(basic_v1())
+    registry.register(technical_v1())
 
 
 # ---------------------------------------------------------------------------
-# Helper: serie de candles -> records
+# Helper 1: serie de candles -> records (sem indicadores)
 # ---------------------------------------------------------------------------
 
 def records_from_candles(
@@ -119,6 +147,61 @@ def records_from_candles(
     for i in range(min_history, len(candles)):
         window = candles[: i + 1]
         feats = pipeline.extract_all(window, indicator_results=None)
+
+        rec: Dict[str, Any] = {
+            "timestamp": candles[i].timestamp,
+            "open": candles[i].open,
+            "high": candles[i].high,
+            "low": candles[i].low,
+            "close": candles[i].close,
+            "volume": candles[i].volume,
+        }
+        rec.update(feats)
+        records.append(rec)
+
+    return records
+
+
+# ---------------------------------------------------------------------------
+# Helper 2: serie de candles -> records (com indicadores)
+# ---------------------------------------------------------------------------
+
+def records_from_candles_with_indicators(
+    candles: List[Candle],
+    feature_set: FeatureSet,
+    indicator_engine: Any,
+    min_history: int = 30,
+    drop_none_features: bool = True,
+) -> List[Dict[str, Any]]:
+    """
+    Igual a records_from_candles, mas computa indicadores a cada passo
+    via indicator_engine.compute_all(window) usando apenas candles[:i+1].
+
+    Isso garante ausencia de look-ahead.
+
+    Args:
+        candles: serie completa
+        feature_set: FeatureSet com extractores que usam indicadores
+        indicator_engine: instancia de IndicatorEngine
+        min_history: minimo de candles antes de comecar a gerar records
+        drop_none_features: se True, descarta records que tenham features None
+
+    Returns:
+        lista de dicts (mesmo formato de records_from_candles).
+    """
+    if not candles:
+        return []
+
+    pipeline = feature_set.build_pipeline()
+    records: List[Dict[str, Any]] = []
+
+    for i in range(min_history, len(candles)):
+        window = candles[: i + 1]
+        indicators = indicator_engine.compute_all(window)
+        feats = pipeline.extract_all(window, indicator_results=indicators)
+
+        if drop_none_features and any(v is None for v in feats.values()):
+            continue
 
         rec: Dict[str, Any] = {
             "timestamp": candles[i].timestamp,

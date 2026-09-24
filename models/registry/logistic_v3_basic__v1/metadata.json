@@ -1,0 +1,38 @@
+{
+  "model_id": "logistic_v3_basic",
+  "model_version": "v1",
+  "dataset_version": "basic_v1_h5_t0.0_1994",
+  "feature_version": "basic_v1",
+  "feature_keys": [
+    "log_return_1",
+    "log_return_2",
+    "log_return_3",
+    "log_return_5",
+    "body_ratio",
+    "upper_shadow_ratio",
+    "lower_shadow_ratio",
+    "sin_time",
+    "cos_time"
+  ],
+  "training_period": [
+    "2026-01-01 09:00:00",
+    "2026-01-02 18:19:00"
+  ],
+  "validation_period": null,
+  "parameters": {
+    "lr": 0.3,
+    "epochs": 500,
+    "horizon": 5,
+    "threshold": 0.0,
+    "wf_train": 500,
+    "wf_test": 100,
+    "feature_set": "basic"
+  },
+  "metrics": {
+    "mean_edge_pp": -21.285714285714285,
+    "positive_folds": 1.0,
+    "total_folds": 14.0
+  },
+  "notes": "Fonte: sintetico",
+  "created_at": "2026-09-24T14:32:23.194884+00:00"
+}
