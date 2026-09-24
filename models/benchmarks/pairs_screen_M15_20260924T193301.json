@@ -1,0 +1,14 @@
+{
+  "timeframe": "M15",
+  "n_requested": 3000,
+  "n_aligned": 170,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "WINV26",
+    "WDOF27"
+  ],
+  "n_pairs_tested": 1,
+  "n_cointegrated": 0,
+  "results": []
+}
