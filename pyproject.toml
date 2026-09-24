@@ -27,11 +27,16 @@ postgres = [
     "alembic>=1.13",
     "psycopg2-binary>=2.9",
 ]
+stats = [
+    "statsmodels>=0.14",
+    "scipy>=1.10",
+]
 mt5 = ["MetaTrader5>=5.0"]
 dev = [
     "pytest-cov>=4.0",
     "httpx>=0.27",
     "alembic>=1.13",
+    "statsmodels>=0.14",
 ]
 
 [project.scripts]

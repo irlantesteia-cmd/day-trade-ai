@@ -1,0 +1,33 @@
+{
+  "timeframe": "M15",
+  "n_requested": 5000,
+  "n_aligned": 4998,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "PETR4",
+    "VALE3",
+    "ITUB4",
+    "BBDC4",
+    "BBAS3",
+    "ABEV3",
+    "B3SA3"
+  ],
+  "n_pairs_tested": 21,
+  "n_cointegrated": 1,
+  "results": [
+    {
+      "symbol_a": "ITUB4",
+      "symbol_b": "BBDC4",
+      "n_obs": 4998,
+      "hedge_ratio": 1.856517,
+      "intercept": 7.991324,
+      "adf_stat": -2.8936,
+      "adf_pvalue": 0.046097,
+      "is_cointegrated": true,
+      "half_life": 170.7,
+      "residual_std": 1.034467,
+      "notes": "corr=0.764 | Engle-Granger"
+    }
+  ]
+}

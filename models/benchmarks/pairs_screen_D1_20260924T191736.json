@@ -1,0 +1,17 @@
+{
+  "timeframe": "D1",
+  "n_requested": 2000,
+  "n_aligned": 1248,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "PETR4",
+    "VALE3",
+    "ITUB4",
+    "BBDC4",
+    "BBAS3"
+  ],
+  "n_pairs_tested": 10,
+  "n_cointegrated": 0,
+  "results": []
+}

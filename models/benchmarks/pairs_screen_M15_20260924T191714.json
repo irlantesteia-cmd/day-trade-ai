@@ -1,0 +1,17 @@
+{
+  "timeframe": "M15",
+  "n_requested": 5000,
+  "n_aligned": 4998,
+  "min_correlation": 0.5,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "PETR3",
+    "PETR4",
+    "ITUB3",
+    "ITUB4",
+    "VALE3"
+  ],
+  "n_pairs_tested": 10,
+  "n_cointegrated": 0,
+  "results": []
+}

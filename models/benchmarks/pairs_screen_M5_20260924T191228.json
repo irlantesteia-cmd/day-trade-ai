@@ -1,0 +1,14 @@
+{
+  "timeframe": "M5",
+  "n_requested": 5000,
+  "n_aligned": 4989,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "ITUB4",
+    "BBDC4"
+  ],
+  "n_pairs_tested": 1,
+  "n_cointegrated": 0,
+  "results": []
+}
