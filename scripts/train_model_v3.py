@@ -5,11 +5,13 @@ Caracteristicas:
   - Dataset via src/models/dataset.py (DatasetBuilder)
   - Walk-forward validation via src/validation/splitter.py
   - Modelo versionado via src/models/registry.py (ModelRegistry)
+  - Suporte a multiplos timeframes (M1, M5, M15, M30, H1)
 
 Uso:
-    python scripts/train_model_v3.py                        # basic, sintetico
-    python scripts/train_model_v3.py --from-mt5             # basic, MT5
+    python scripts/train_model_v3.py                        # basic, sintetico M1
+    python scripts/train_model_v3.py --from-mt5             # basic, MT5 M1
     python scripts/train_model_v3.py --from-mt5 --feature-set technical
+    python scripts/train_model_v3.py --from-mt5 --timeframe M5 --feature-set technical
 """
 import argparse
 import os
@@ -19,6 +21,17 @@ from typing import Dict, List, Tuple
 import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
+# Mapeamento string -> constante MT5
+TIMEFRAME_MAP = {
+    "M1":  "TIMEFRAME_M1",
+    "M5":  "TIMEFRAME_M5",
+    "M15": "TIMEFRAME_M15",
+    "M30": "TIMEFRAME_M30",
+    "H1":  "TIMEFRAME_H1",
+}
+
 
 from src.domain.models import Candle
 from src.features.sets import (
@@ -83,7 +96,6 @@ def candles_sinteticos(n: int = 5000) -> List[Candle]:
     base_ts = datetime(2026, 1, 1, 9, 0, 0)
     candles: List[Candle] = []
     for i in range(n):
-        # AR(1) puro, sem ciclo
         ret = 0.3 * prev_ret + np.random.randn() * 0.0008
         o = price
         c = price * (1 + ret)
@@ -106,9 +118,14 @@ def candles_sinteticos(n: int = 5000) -> List[Candle]:
     return candles
 
 
-def candles_mt5(symbol: str, n: int) -> List[Candle]:
+def candles_mt5(symbol: str, n: int, timeframe: str = "M1") -> List[Candle]:
     from datetime import datetime, timezone
     import MetaTrader5 as mt5
+
+    if timeframe not in TIMEFRAME_MAP:
+        raise ValueError(f"Timeframe invalido: {timeframe}. Use: {list(TIMEFRAME_MAP.keys())}")
+
+    tf_const = getattr(mt5, TIMEFRAME_MAP[timeframe])
 
     if not mt5.initialize():
         raise RuntimeError(f"mt5.initialize falhou: {mt5.last_error()}")
@@ -120,9 +137,9 @@ def candles_mt5(symbol: str, n: int) -> List[Candle]:
             if not mt5.symbol_select(symbol, True):
                 raise RuntimeError(f"Falha ao adicionar {symbol} ao Market Watch")
 
-        rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M1, 0, n)
+        rates = mt5.copy_rates_from_pos(symbol, tf_const, 0, n)
         if rates is None or len(rates) == 0:
-            raise RuntimeError(f"Sem barras para {symbol}: {mt5.last_error()}")
+            raise RuntimeError(f"Sem barras para {symbol} {timeframe}: {mt5.last_error()}")
 
         candles: List[Candle] = []
         for r in rates:
@@ -216,6 +233,12 @@ def main():
     parser = argparse.ArgumentParser(description="Treino v3 - pipeline completo")
     parser.add_argument("--from-mt5", action="store_true")
     parser.add_argument("--symbol", default="WIN$")
+    parser.add_argument(
+        "--timeframe",
+        choices=list(TIMEFRAME_MAP.keys()),
+        default="M1",
+        help="Timeframe das barras MT5 (default M1)",
+    )
     parser.add_argument("--n", type=int, default=5000)
     parser.add_argument("--horizon", type=int, default=5)
     parser.add_argument("--threshold", type=float, default=0.0)
@@ -230,17 +253,17 @@ def main():
         help="Qual FeatureSet usar (basic v1 ou technical v1)",
     )
     parser.add_argument("--model-id", default=None,
-                        help="Default: logistic_v3_<feature_set>")
+                        help="Default: logistic_v3_<feature_set>_<timeframe>")
     parser.add_argument("--model-version", default="v1")
     parser.add_argument("--registry-dir", default="models/registry")
     args = parser.parse_args()
 
-    model_id = args.model_id or f"logistic_v3_{args.feature_set}"
+    model_id = args.model_id or f"logistic_v3_{args.feature_set}_{args.timeframe}"
 
     # 1. Carregar candles
     if args.from_mt5:
-        print(f"Buscando {args.n} candles de {args.symbol} no MT5...")
-        candles = candles_mt5(args.symbol, args.n)
+        print(f"Buscando {args.n} candles de {args.symbol} ({args.timeframe}) no MT5...")
+        candles = candles_mt5(args.symbol, args.n, timeframe=args.timeframe)
     else:
         print(f"Gerando {args.n} candles sinteticos...")
         candles = candles_sinteticos(args.n)
@@ -341,13 +364,14 @@ def main():
             "wf_train": args.wf_train,
             "wf_test": args.wf_test,
             "feature_set": args.feature_set,
+            "timeframe": args.timeframe,
         },
         metrics={
             "mean_edge_pp": mean_edge,
             "positive_folds": float(pos_folds),
             "total_folds": float(len(edges)),
         },
-        notes=f"Fonte: {'MT5:' + args.symbol if args.from_mt5 else 'sintetico'}",
+        notes=f"Fonte: {'MT5:' + args.symbol + ' ' + args.timeframe if args.from_mt5 else 'sintetico'}",
     )
 
     registry = ModelRegistry(root_dir=args.registry_dir)

@@ -1,0 +1,38 @@
+{
+  "model_id": "logistic_v3_technical_M5",
+  "model_version": "v1",
+  "dataset_version": "technical_v1_h5_t0.0_8438",
+  "feature_version": "technical_v1",
+  "feature_keys": [
+    "log_return_1",
+    "log_return_3",
+    "body_ratio",
+    "upper_shadow_ratio",
+    "lower_shadow_ratio",
+    "rsi_norm",
+    "sma_fast_dist_pct",
+    "atr_norm"
+  ],
+  "training_period": [
+    "2026-04-15 12:10:00+00:00",
+    "2026-09-24 12:10:00+00:00"
+  ],
+  "validation_period": null,
+  "parameters": {
+    "lr": 0.3,
+    "epochs": 500,
+    "horizon": 5,
+    "threshold": 0.0,
+    "wf_train": 500,
+    "wf_test": 100,
+    "feature_set": "technical",
+    "timeframe": "M5"
+  },
+  "metrics": {
+    "mean_edge_pp": -7.481012658227848,
+    "positive_folds": 15.0,
+    "total_folds": 79.0
+  },
+  "notes": "Fonte: MT5:WINV26 M5",
+  "created_at": "2026-09-24T15:12:58.733845+00:00"
+}
