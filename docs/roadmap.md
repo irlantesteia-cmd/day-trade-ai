@@ -2,7 +2,7 @@
 
 Documento vivo. Atualizar a cada milestone concluido.
 
-Ultima atualizacao: pos-Milestone 1.
+Ultima atualizacao: pos-Milestone 20 (2026-09-24).
 
 ## Legenda
 
@@ -14,7 +14,7 @@ Ultima atualizacao: pos-Milestone 1.
 
 | Fase | Descricao | Status |
 |---|---|---|
-| 0 | Discovery / Auditoria | [~] |
+| 0 | Discovery / Auditoria | [OK] |
 | 1 | Foundation (config, logging, health, git, pytest, README, estrutura) | [OK] |
 | 2 | Domain (Market, Symbol, Candle, Signal, Order, Position) | [OK] |
 | 3 | Data Engine (providers, quality, persistence) | [OK] |
@@ -28,62 +28,78 @@ Ultima atualizacao: pos-Milestone 1.
 | 11 | Risk | [OK] |
 | 12 | Paper Trading | [OK] |
 | 13 | Robustness (OOS, Walk-Forward, Monte Carlo, Sensitivity) | [OK] |
-| 14 | Machine Learning | [~] |
+| 14 | Machine Learning | [~] infra completa, sem edge direcional |
 | 15 | Portfolio | [OK] |
-| 16 | API | [~] |
-| 17 | Dashboard | [ ] |
-| 18 | Production (Postgres, monitoramento) | [~] |
-| 19 | Broker Integration (abstracao Broker) | [~] |
-| 20 | Live Trading | [ ] |
+| 16 | API | [OK] HTTP + dashboard |
+| 17 | Dashboard | [OK] HTML estatico |
+| 18 | Production (Postgres, monitoramento) | [OK] Docker + Alembic |
+| 19 | Broker Integration (abstracao Broker) | [OK] |
+| 20 | Live Trading | [ ] bloqueada (sem edge comprovado) |
 
 ## Progresso
 
-- Concluidas: 12/21 fases (57%)
-- Parciais: 6/21 fases (29%)
-- Pendentes: 3/21 fases (14%)
+- Concluidas: 19/21 fases (90%)
+- Parciais: 1/21 fases (5%) - FASE 8
+- Bloqueadas: 1/21 fases (5%) - FASE 20
 
 ## Problemas Conhecidos (Backlog Tecnico)
 
 | # | Problema | Severidade | Fase alvo |
 |---|---|---|---|
 | P1 | `src/backtest/engine.py` nao tem `__main__` nem argparse | Baixa | Fase 9 |
-| P2 | Config duplicado (`AppConfig` vs `Settings`) | Media | Ver ADR-002 |
-| P3 | `MT5Adapter.execute_signal` nao envia stop_loss nem take_profit | Alta | Fase 11 |
-| P4 | `src/ml/logistic_model.py` e stub (usado por AutoRetrainer); migrar para modelo real | Media | Fase 14 |
-| P5 | Sem abstracao `Broker` formal | Media | Fase 19 |
-| P6 | Sem Event Bus | Media | Fase futura |
-| P7 | Sem Model Registry | Media | Fase 14 |
+| P4 | `src/ml/logistic_model.py` e stub usado por AutoRetrainer | Media | Fase 14 |
+| P8 | `train_model.py` (v2) ainda contem ciclo senoidal (script legado) | Baixa | - |
+| P9 | `models/logistic_v1.pkl` ainda referenciado por `_load_strategy()` | Media | Fase 14 |
+| P10 | Alias `PortfolioManager = AccountState` deprecado | Baixa | - |
+| P11 | Nome `portfolio` no `ExecutionEngine.__init__` (historico) | Baixa | - |
+| P12 | API HTTP sem autenticacao | Alta (se exposta) | Fase 16 |
+| P13 | DailyPnLTracker nao implementado (ADR-015) | Media | Fase 11 |
+| P14 | Sem CI com Postgres real | Baixa | Fase 18 |
+| P15 | Docker nao instalado no ambiente dev local | Baixa | - |
 
+## Achados Cientificos
 
-## Proximos Milestones
+Ver `docs/STATUS.md` para detalhes. Resumo:
 
-### Milestone 2 - PHASE 14 (ML)
+- **ADR-020**: nenhuma estrategia direcional testada tem edge
+  (~20 combinacoes: ML logistico, MA Crossover, RSI Reversion; 5 ativos;
+  4 timeframes; 2 horizontes). Consistente com eficiencia de mercado.
+- **ADR-022**: previsao de volatilidade nao generaliza uniformemente.
+- **ADR-023**: sinal de volatilidade real **para o WIN**, especifico de
+  horizonte curto (H=3..5). Edge modesto (+3 a +6 p.p.).
 
-- `ModelRegistry` com metadados (model_id, version, dataset_version, metrics)
-- Dataset versioning
-- Re-treino com features de `src/features/`
-- Walk-forward usando `src/validation/`
-- Criterio de aceitacao: edge > 1.5 p.p. em OOS
+## Proximos Milestones Possiveis
 
-### Milestone 3 - PHASE 15 (Portfolio, reconstrucao)
+### Milestone A - GARCH / HAR-RV dedicado
+- Implementar modelo de volatilidade dedicado (biblioteca `arch`)
+- Testar em WIN M5 H=3..5
+- Comparar com logistico + features simples
+- **Risco**: complexidade alta, ganho incerto
 
-- Reconstruir `PortfolioOrchestrator` dentro do framework
-- Usar ativos apenas com edge comprovado (Milestone 2)
+### Milestone B - Estrategia de breakout baseada em volatilidade
+- Usar o sinal do ADR-023 para disparar ordens (nao so previsao)
+- Modelar spread/commission no backtest
+- **Risco**: edge modesto pode ser absorvido por custos
 
-### Milestone 4 - PHASE 19 (Broker Abstraction)
+### Milestone C - DailyPnLTracker + KillSwitch unificado
+- Implementar rastreamento de PnL diario
+- Conectar ao RiskManager (fecha P13)
+- **Risco**: baixo, valor medio
 
-- Interface `Broker` formal
-- `MT5Adapter` implementa `Broker`
-- `PaperBroker` tambem implementa
+### Milestone D - CI com Postgres real
+- Adicionar `services.postgres` no GitHub Actions
+- Rodar testes de integracao em CI
+- **Risco**: baixo, valor baixo
 
-### Milestone 5 - PHASE 16 (API HTTP)
+### Milestone E - Autenticacao na API
+- API key ou OAuth
+- Requer antes de exposicao publica
+- **Risco**: baixo, valor alto se for expor
 
-- FastAPI com endpoints da secao 41 do framework
-
-## Nao-Objetivos (por enquanto)
+## Nao-Objetivos (mantidos)
 
 - LLM / GPT / linguagem natural
 - Redis / Kafka / Celery
 - Microservicos
 - GPU / deep learning
-- Live trading real
+- Live trading real sem edge comprovado
