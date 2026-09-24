@@ -1,7 +1,7 @@
 {
   "model_id": "logistic_v3_technical",
   "model_version": "v1",
-  "dataset_version": "technical_v1_h5_t0.0_19970",
+  "dataset_version": "technical_v1_h5_t0.0_4970",
   "feature_version": "technical_v1",
   "feature_keys": [
     "log_return_1",
@@ -14,8 +14,8 @@
     "atr_norm"
   ],
   "training_period": [
-    "2026-08-04 15:15:00+00:00",
-    "2026-09-24 11:37:00+00:00"
+    "2026-01-01 09:00:00",
+    "2026-01-04 20:19:00"
   ],
   "validation_period": null,
   "parameters": {
@@ -28,10 +28,10 @@
     "feature_set": "technical"
   },
   "metrics": {
-    "mean_edge_pp": -9.402061855670103,
-    "positive_folds": 31.0,
-    "total_folds": 194.0
+    "mean_edge_pp": -6.386363636363637,
+    "positive_folds": 15.0,
+    "total_folds": 44.0
   },
-  "notes": "Fonte: MT5:WINV26",
-  "created_at": "2026-09-24T14:40:57.086930+00:00"
+  "notes": "Fonte: sintetico",
+  "created_at": "2026-09-24T14:58:59.132142+00:00"
 }

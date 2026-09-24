@@ -64,7 +64,18 @@ def apply_scaler(X: List[List[float]], means: List[float], stds: List[float]) ->
 # ---------------------------------------------------------------------------
 
 def candles_sinteticos(n: int = 5000) -> List[Candle]:
-    """Candles sinteticos com momento fraco (baseline honesto)."""
+    """
+    Candles sinteticos realistas: AR(1) de retornos com ruido.
+
+    NAO inclui ciclo senoidal (removido no ADR-013). O ciclo anterior
+    era detectado por RSI/SMA/ATR e inflava artificialmente o edge
+    no walk-forward (edge sintetico +17 p.p. vs. MT5 real -9.40 p.p.).
+
+    Caracteristicas:
+      - ret[t] = 0.3 * ret[t-1] + N(0, 0.0008)   (inercia fraca + ruido)
+      - Sem componente deterministica
+      - Volatilidade similar ao WIN$ M1 em escala relativa
+    """
     from datetime import datetime, timedelta
     np.random.seed(42)
     price = 130000.0
@@ -72,8 +83,8 @@ def candles_sinteticos(n: int = 5000) -> List[Candle]:
     base_ts = datetime(2026, 1, 1, 9, 0, 0)
     candles: List[Candle] = []
     for i in range(n):
-        cycle = 0.0005 * np.sin(2 * np.pi * i / 200.0)
-        ret = 0.3 * prev_ret + cycle + np.random.randn() * 0.0008
+        # AR(1) puro, sem ciclo
+        ret = 0.3 * prev_ret + np.random.randn() * 0.0008
         o = price
         c = price * (1 + ret)
         h = max(o, c) * (1 + abs(np.random.randn()) * 0.0003)
