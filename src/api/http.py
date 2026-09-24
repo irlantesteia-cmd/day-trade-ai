@@ -8,6 +8,7 @@ Design:
   - Uma unica instancia de APIGateway, criada lazy e cacheada em app.state
   - Endpoints de leitura: /health, /status, /metrics, /performance
   - Endpoints de acao: /paper/start, /paper/stop
+  - Dashboard HTML estatico em / (src/api/static/index.html)
   - Sem autenticacao (fica para milestone futuro)
   - Sem WebSocket / streaming (fica para milestone futuro)
 
@@ -21,10 +22,11 @@ Uso:
         client.get("/health")
 """
 import logging
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 from src.api.app import APIGateway
 
@@ -37,6 +39,9 @@ app = FastAPI(
     description="API HTTP para telemetria, saude e relatorios executivos.",
     version="1.0.0",
 )
+
+
+STATIC_DIR = Path(__file__).parent / "static"
 
 
 # ---------------------------------------------------------------------------
@@ -62,7 +67,24 @@ def set_gateway(gateway: APIGateway) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Endpoints
+# Dashboard (HTML estatico)
+# ---------------------------------------------------------------------------
+
+@app.get("/", response_class=HTMLResponse)
+def dashboard() -> HTMLResponse:
+    """
+    Serve o dashboard HTML estatico.
+    O proprio HTML consulta /health, /metrics, /status, /performance
+    e os endpoints /paper/* via fetch.
+    """
+    index = STATIC_DIR / "index.html"
+    if not index.exists():
+        raise HTTPException(status_code=404, detail="dashboard nao encontrado")
+    return HTMLResponse(content=index.read_text(encoding="utf-8"))
+
+
+# ---------------------------------------------------------------------------
+# Endpoints de leitura
 # ---------------------------------------------------------------------------
 
 @app.get("/health")
@@ -127,6 +149,10 @@ def performance(
         logger.exception("Erro em /performance")
         raise HTTPException(status_code=500, detail=str(exc))
 
+
+# ---------------------------------------------------------------------------
+# Endpoints de acao
+# ---------------------------------------------------------------------------
 
 @app.post("/paper/start")
 def paper_start(request: Request) -> Dict[str, Any]:

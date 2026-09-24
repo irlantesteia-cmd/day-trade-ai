@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Day Trade AI Platform</title>
+  <style>
+    body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; max-width: 1000px; color: #222; }
+    h1 { margin-bottom: 0.25rem; }
+    .sub { color: #666; margin-top: 0; }
+    section { border: 1px solid #ddd; border-radius: 6px; padding: 1rem; margin: 1rem 0; }
+    section h2 { margin-top: 0; font-size: 1.1rem; }
+    pre { background: #f6f6f6; padding: 0.75rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; margin-right: 0.5rem; cursor: pointer; border-radius: 4px; border: 1px solid #999; background: #fafafa; }
+    button:hover { background: #eee; }
+    .err { color: #b00020; }
+    .ok { color: #0a7c2f; }
+    .row { display: flex; gap: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Day Trade AI Platform</h1>
+  <p class="sub">Dashboard de monitoramento (auto-refresh a cada 5s)</p>
+
+  <section>
+    <h2>Status</h2>
+    <pre id="status">carregando...</pre>
+    <div class="row">
+      <button id="btn-start">Start Paper</button>
+      <button id="btn-stop">Stop Paper</button>
+    </div>
+    <p id="action-msg"></p>
+  </section>
+
+  <section>
+    <h2>Health</h2>
+    <pre id="health">carregando...</pre>
+  </section>
+
+  <section>
+    <h2>Metrics</h2>
+    <pre id="metrics">carregando...</pre>
+  </section>
+
+  <section>
+    <h2>Performance (JSON)</h2>
+    <pre id="performance">carregando...</pre>
+  </section>
+
+  <script>
+    async function fetchJson(path, options) {
+      const r = await fetch(path, options);
+      if (!r.ok) throw new Error(path + " -> HTTP " + r.status);
+      return r.json();
+    }
+
+    function setText(id, value, isError) {
+      const el = document.getElementById(id);
+      el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
+      el.className = isError ? "err" : "";
+    }
+
+    async function refresh() {
+      try {
+        const status = await fetchJson("/status");
+        setText("status", status);
+      } catch (e) {
+        setText("status", "Erro: " + e.message, true);
+      }
+
+      try {
+        const health = await fetchJson("/health");
+        setText("health", health);
+      } catch (e) {
+        setText("health", "Erro: " + e.message, true);
+      }
+
+      try {
+        const metrics = await fetchJson("/metrics");
+        setText("metrics", metrics);
+      } catch (e) {
+        setText("metrics", "Erro: " + e.message, true);
+      }
+
+      try {
+        const perf = await fetchJson("/performance");
+        setText("performance", perf);
+      } catch (e) {
+        setText("performance", "Erro: " + e.message, true);
+      }
+    }
+
+    async function action(path, label) {
+      const msg = document.getElementById("action-msg");
+      msg.textContent = label + "...";
+      msg.className = "";
+      try {
+        const r = await fetchJson(path, { method: "POST" });
+        msg.textContent = label + " OK: " + JSON.stringify(r);
+        msg.className = "ok";
+      } catch (e) {
+        msg.textContent = label + " falhou: " + e.message;
+        msg.className = "err";
+      }
+      refresh();
+    }
+
+    document.getElementById("btn-start").onclick = () => action("/paper/start", "Start");
+    document.getElementById("btn-stop").onclick = () => action("/paper/stop", "Stop");
+
+    refresh();
+    setInterval(refresh, 5000);
+  </script>
+</body>
+</html>

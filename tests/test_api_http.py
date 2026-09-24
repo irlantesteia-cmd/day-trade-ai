@@ -103,3 +103,38 @@ def test_openapi_schema_available(client):
     assert "paths" in schema
     assert "/health" in schema["paths"]
     assert "/performance" in schema["paths"]
+
+
+
+# ---------------------------------------------------------------------------
+# Dashboard (Milestone 13)
+# ---------------------------------------------------------------------------
+
+def test_dashboard_returns_html(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "text/html" in r.headers["content-type"]
+
+
+def test_dashboard_contains_title_and_sections(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    body = r.text
+    assert "<title>Day Trade AI Platform</title>" in body
+    # Secoes principais esperadas
+    assert "<h2>Status</h2>" in body
+    assert "<h2>Health</h2>" in body
+    assert "<h2>Metrics</h2>" in body
+    assert "<h2>Performance" in body
+
+
+def test_dashboard_references_api_endpoints(client):
+    r = client.get("/")
+    body = r.text
+    # O JS do dashboard deve consultar estes endpoints
+    assert "/status" in body
+    assert "/health" in body
+    assert "/metrics" in body
+    assert "/performance" in body
+    assert "/paper/start" in body
+    assert "/paper/stop" in body
