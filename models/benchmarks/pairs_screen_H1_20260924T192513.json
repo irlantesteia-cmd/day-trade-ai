@@ -1,0 +1,14 @@
+{
+  "timeframe": "H1",
+  "n_requested": 2000,
+  "n_aligned": 649,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "WINV26",
+    "WINZ26"
+  ],
+  "n_pairs_tested": 1,
+  "n_cointegrated": 0,
+  "results": []
+}

@@ -1,0 +1,28 @@
+{
+  "timeframe": "M30",
+  "n_requested": 3000,
+  "n_aligned": 1057,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "WINV26",
+    "WINZ26"
+  ],
+  "n_pairs_tested": 1,
+  "n_cointegrated": 1,
+  "results": [
+    {
+      "symbol_a": "WINV26",
+      "symbol_b": "WINZ26",
+      "n_obs": 1057,
+      "hedge_ratio": 0.984724,
+      "intercept": -915.268361,
+      "adf_stat": -3.0355,
+      "adf_pvalue": 0.031707,
+      "is_cointegrated": true,
+      "half_life": 0.39,
+      "residual_std": 246.537243,
+      "notes": "corr=0.873 | Engle-Granger"
+    }
+  ]
+}

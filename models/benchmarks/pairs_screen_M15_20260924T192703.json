@@ -1,0 +1,28 @@
+{
+  "timeframe": "M15",
+  "n_requested": 5000,
+  "n_aligned": 1006,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "WDOV26",
+    "WDOX26"
+  ],
+  "n_pairs_tested": 1,
+  "n_cointegrated": 1,
+  "results": [
+    {
+      "symbol_a": "WDOV26",
+      "symbol_b": "WDOX26",
+      "n_obs": 1006,
+      "hedge_ratio": 0.992031,
+      "intercept": 10.735284,
+      "adf_stat": -5.4808,
+      "adf_pvalue": 2e-06,
+      "is_cointegrated": true,
+      "half_life": 0.24,
+      "residual_std": 3.007639,
+      "notes": "corr=0.840 | Engle-Granger"
+    }
+  ]
+}
