@@ -9,15 +9,22 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libpq-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml .
-RUN pip install --no-cache-dir .
-
+COPY pyproject.toml ./
+COPY README.md ./
 COPY src/ ./src
+
+# Instala o pacote com extras de API (fastapi/uvicorn/httpx) e Postgres
+RUN pip install --no-cache-dir ".[api,postgres]"
+
 COPY tests/ ./tests
+COPY migrations/ ./migrations
+COPY alembic.ini ./
 
 EXPOSE 8000
 
-CMD ["python", "-m", "src.main"]
+# Entry point: API HTTP (uvicorn)
+CMD ["uvicorn", "src.api.http:app", "--host", "0.0.0.0", "--port", "8000"]
