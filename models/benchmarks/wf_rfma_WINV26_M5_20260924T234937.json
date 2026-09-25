@@ -1,0 +1,68 @@
+{
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "n_candles": 8543,
+  "n_windows": 5,
+  "vol_window": 20,
+  "vol_lookback": 500,
+  "vol_percentile": 66.0,
+  "folds": [
+    {
+      "fold": 0,
+      "n_candles": 1708,
+      "n_trades": 75,
+      "pnl_pct": -2.16,
+      "pnl_rs": -216.21,
+      "win_rate": 48.0,
+      "pf": 0.98,
+      "max_dd_pct": 10.74,
+      "sharpe": -0.32
+    },
+    {
+      "fold": 1,
+      "n_candles": 1708,
+      "n_trades": 70,
+      "pnl_pct": 8.22,
+      "pnl_rs": 822.07,
+      "win_rate": 50.0,
+      "pf": 1.33,
+      "max_dd_pct": 5.81,
+      "sharpe": 5.09
+    },
+    {
+      "fold": 2,
+      "n_candles": 1708,
+      "n_trades": 85,
+      "pnl_pct": -4.81,
+      "pnl_rs": -480.71,
+      "win_rate": 45.88,
+      "pf": 0.89,
+      "max_dd_pct": 11.6,
+      "sharpe": -2.89
+    },
+    {
+      "fold": 3,
+      "n_candles": 1708,
+      "n_trades": 71,
+      "pnl_pct": 23.25,
+      "pnl_rs": 2324.79,
+      "win_rate": 52.11,
+      "pf": 1.73,
+      "max_dd_pct": 4.35,
+      "sharpe": 11.28
+    },
+    {
+      "fold": 4,
+      "n_candles": 1711,
+      "n_trades": 84,
+      "pnl_pct": -3.91,
+      "pnl_rs": -390.79,
+      "win_rate": 44.05,
+      "pf": 0.94,
+      "max_dd_pct": 17.15,
+      "sharpe": -1.66
+    }
+  ],
+  "mean_pnl_pct": 4.12,
+  "positive_folds": 2
+}

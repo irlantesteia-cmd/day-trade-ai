@@ -1,0 +1,54 @@
+{
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "strategy": "ma",
+  "strategy_name": "MA_CROSSOVER",
+  "source": "mt5",
+  "n_candles": 8543,
+  "vol_window": 20,
+  "spread_points": 5.0,
+  "commission": 1.0,
+  "use_sltp": true,
+  "overall": {
+    "n_trades": 1198,
+    "pnl_rs": 576.11,
+    "pnl_pct": 5.76,
+    "win_rate": 44.32,
+    "profit_factor": 1.01,
+    "avg_pnl": 0.48,
+    "gross_profit": 46937.13,
+    "gross_loss": 46361.02
+  },
+  "buckets": {
+    "low": {
+      "n_trades": 398,
+      "pnl_rs": -1396.94,
+      "pnl_pct": -13.97,
+      "win_rate": 38.94,
+      "profit_factor": 0.87,
+      "avg_pnl": -3.51,
+      "gross_profit": 9199.7,
+      "gross_loss": 10596.64
+    },
+    "mid": {
+      "n_trades": 397,
+      "pnl_rs": -526.13,
+      "pnl_pct": -5.26,
+      "win_rate": 46.85,
+      "profit_factor": 0.96,
+      "avg_pnl": -1.33,
+      "gross_profit": 12454.86,
+      "gross_loss": 12980.99
+    },
+    "high": {
+      "n_trades": 398,
+      "pnl_rs": 2599.11,
+      "pnl_pct": 25.99,
+      "win_rate": 47.24,
+      "profit_factor": 1.12,
+      "avg_pnl": 6.53,
+      "gross_profit": 25008.57,
+      "gross_loss": 22409.46
+    }
+  }
+}

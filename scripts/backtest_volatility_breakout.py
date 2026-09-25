@@ -126,6 +126,7 @@ def run_backtest(
     atr_mult_sl: float = 1.5,
     atr_mult_tp: float = 3.0,
     atr_key: str = "atr",
+    max_trades: int = 50,
 ) -> Dict[str, Any]:
     """
     Loop de backtest direcional com SL/TP opcional.
@@ -346,9 +347,8 @@ def run_backtest(
             "atr_mult_sl": atr_mult_sl,
             "atr_mult_tp": atr_mult_tp,
         },
-        "trades": trades[:50],
+                "trades": trades[:max_trades] if max_trades > 0 else trades,
     }
-
 
 # ---------------------------------------------------------------------------
 # Main

@@ -1,0 +1,182 @@
+{
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "n_candles": 8543,
+  "n_windows": 5,
+  "vol_window": 20,
+  "folds": [
+    {
+      "fold": 0,
+      "n_candles": 1708,
+      "total": {
+        "n_trades": 261,
+        "pnl_rs": -1357.47,
+        "pnl_pct": -13.57,
+        "win_rate": 40.61,
+        "pf": 0.91
+      },
+      "low": {
+        "n_trades": 85,
+        "pnl_rs": -1220.5,
+        "pnl_pct": -12.21,
+        "win_rate": 34.12,
+        "pf": 0.58
+      },
+      "mid": {
+        "n_trades": 86,
+        "pnl_rs": -1191.22,
+        "pnl_pct": -11.91,
+        "win_rate": 44.19,
+        "pf": 0.75
+      },
+      "high": {
+        "n_trades": 85,
+        "pnl_rs": 1154.18,
+        "pnl_pct": 11.54,
+        "win_rate": 43.53,
+        "pf": 1.15
+      },
+      "high_filtered_pnl_pct": 11.54
+    },
+    {
+      "fold": 1,
+      "n_candles": 1708,
+      "total": {
+        "n_trades": 243,
+        "pnl_rs": -101.44,
+        "pnl_pct": -1.01,
+        "win_rate": 43.62,
+        "pf": 0.99
+      },
+      "low": {
+        "n_trades": 80,
+        "pnl_rs": -15.31,
+        "pnl_pct": -0.15,
+        "win_rate": 41.25,
+        "pf": 0.99
+      },
+      "mid": {
+        "n_trades": 81,
+        "pnl_rs": -425.21,
+        "pnl_pct": -4.25,
+        "win_rate": 40.74,
+        "pf": 0.81
+      },
+      "high": {
+        "n_trades": 80,
+        "pnl_rs": 263.51,
+        "pnl_pct": 2.64,
+        "win_rate": 48.75,
+        "pf": 1.08
+      },
+      "high_filtered_pnl_pct": 2.64
+    },
+    {
+      "fold": 2,
+      "n_candles": 1708,
+      "total": {
+        "n_trades": 230,
+        "pnl_rs": 430.71,
+        "pnl_pct": 4.31,
+        "win_rate": 46.96,
+        "pf": 1.07
+      },
+      "low": {
+        "n_trades": 76,
+        "pnl_rs": -164.87,
+        "pnl_pct": -1.65,
+        "win_rate": 40.79,
+        "pf": 0.9
+      },
+      "mid": {
+        "n_trades": 76,
+        "pnl_rs": 838.23,
+        "pnl_pct": 8.38,
+        "win_rate": 53.95,
+        "pf": 1.46
+      },
+      "high": {
+        "n_trades": 76,
+        "pnl_rs": -130.65,
+        "pnl_pct": -1.31,
+        "win_rate": 47.37,
+        "pf": 0.95
+      },
+      "high_filtered_pnl_pct": -1.31
+    },
+    {
+      "fold": 3,
+      "n_candles": 1708,
+      "total": {
+        "n_trades": 224,
+        "pnl_rs": 2156.51,
+        "pnl_pct": 21.57,
+        "win_rate": 47.32,
+        "pf": 1.29
+      },
+      "low": {
+        "n_trades": 74,
+        "pnl_rs": -574.57,
+        "pnl_pct": -5.75,
+        "win_rate": 36.49,
+        "pf": 0.74
+      },
+      "mid": {
+        "n_trades": 74,
+        "pnl_rs": 460.58,
+        "pnl_pct": 4.61,
+        "win_rate": 55.41,
+        "pf": 1.24
+      },
+      "high": {
+        "n_trades": 74,
+        "pnl_rs": 2012.93,
+        "pnl_pct": 20.13,
+        "win_rate": 48.65,
+        "pf": 1.63
+      },
+      "high_filtered_pnl_pct": 20.13
+    },
+    {
+      "fold": 4,
+      "n_candles": 1711,
+      "total": {
+        "n_trades": 238,
+        "pnl_rs": -381.74,
+        "pnl_pct": -3.82,
+        "win_rate": 43.7,
+        "pf": 0.96
+      },
+      "low": {
+        "n_trades": 79,
+        "pnl_rs": -369.34,
+        "pnl_pct": -3.69,
+        "win_rate": 35.44,
+        "pf": 0.87
+      },
+      "mid": {
+        "n_trades": 78,
+        "pnl_rs": -809.21,
+        "pnl_pct": -8.09,
+        "win_rate": 47.44,
+        "pf": 0.73
+      },
+      "high": {
+        "n_trades": 79,
+        "pnl_rs": 763.14,
+        "pnl_pct": 7.63,
+        "win_rate": 48.1,
+        "pf": 1.19
+      },
+      "high_filtered_pnl_pct": 7.63
+    }
+  ],
+  "summary": {
+    "total_mean_pnl_pct": 1.5,
+    "low_mean_pnl_pct": -4.69,
+    "mid_mean_pnl_pct": -2.25,
+    "high_mean_pnl_pct": 8.13,
+    "high_positive_folds": 4,
+    "total_positive_folds": 2
+  }
+}
