@@ -13,6 +13,7 @@ from src.domain.models import Order, Signal
 from src.engine.kill_switch import KillSwitch
 from src.engine.live_engine import LiveTradingEngine
 from src.engine.mt5_bridge import MT5ExecutionEngine
+from src.risk.calculators import PositionSizer
 from src.risk.engine import RiskEngine
 from src.telemetry.alerts import AlertManager
 from src.telemetry.collector import MetricsCollector
@@ -204,16 +205,34 @@ def _load_strategy():
 # Builder principal
 # ---------------------------------------------------------------------------
 
-def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> Dict[str, Any]:
+def build_system(
+    config: Optional[AppConfig] = None,
+    use_mt5: bool = False,
+    strategy: Optional[Any] = None,
+    sizer: Optional[Any] = None,
+) -> Dict[str, Any]:
+    """
+    Constroi o sistema.
+
+    Args:
+        config:   AppConfig (default: AppConfig.from_env())
+        use_mt5:  Se True, usa MT5ExecutionEngine; senao DummyExecutionEngine
+        strategy: Estrategia customizada (default: _load_strategy())
+        sizer:    Position sizer customizado (default: PositionSizer())
+
+    Retrocompativel: build_system(cfg, use_mt5=True) funciona igual antes.
+    """
     cfg = config or AppConfig.from_env()
 
     metrics = MetricsCollector()
     health = SystemHealthMonitor(metrics)
     alerts = AlertManager()
-    strategy = _load_strategy()
+    resolved_strategy = strategy if strategy is not None else _load_strategy()
     auditor = TradeAuditor()
     retrainer = AutoRetrainer(min_samples=5)
-    risk_engine = RiskEngine()
+
+    resolved_sizer = sizer if sizer is not None else PositionSizer()
+    risk_engine = RiskEngine(sizer=resolved_sizer)
 
     if use_mt5 or cfg.trading_mode in ["live", "paper_mt5"]:
         mt5_adapter = MT5Adapter()
@@ -223,7 +242,7 @@ def build_system(config: Optional[AppConfig] = None, use_mt5: bool = False) -> D
         execution = DummyExecutionEngine()
 
     engine = LiveTradingEngine(
-        strategy=strategy,
+        strategy=resolved_strategy,
         risk_manager=None,
         execution_engine=execution,
         metrics_collector=metrics,
