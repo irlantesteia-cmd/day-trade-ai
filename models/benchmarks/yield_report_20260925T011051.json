@@ -1,0 +1,166 @@
+{
+  "n_opportunities": 13,
+  "n_beats_risk_free": 4,
+  "best_overall": {
+    "asset": "USDC",
+    "source": "defi_morpho",
+    "category": "lending",
+    "apy_pct": 6.5,
+    "currency": "USD",
+    "lockup_days": 0,
+    "risk_level": "medium",
+    "notes": "util 81.3% | chain ethereum"
+  },
+  "yields": [
+    {
+      "asset": "USDC",
+      "source": "defi_morpho",
+      "category": "lending",
+      "apy_pct": 6.5,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "util 81.3% | chain ethereum"
+    },
+    {
+      "asset": "SOL",
+      "source": "binance_sol_staking",
+      "category": "staking",
+      "apy_pct": 5.5,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "yield de referencia (Q3 2026, atualizavel)"
+    },
+    {
+      "asset": "USDC",
+      "source": "defi_aave_v3",
+      "category": "lending",
+      "apy_pct": 5.2,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "util 76.5% | chain ethereum"
+    },
+    {
+      "asset": "USDC",
+      "source": "defi_compound_v3",
+      "category": "lending",
+      "apy_pct": 4.9,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "util 75.4% | chain ethereum"
+    },
+    {
+      "asset": "USDT",
+      "source": "defi_aave_v3",
+      "category": "lending",
+      "apy_pct": 4.8,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "util 75.0% | chain ethereum"
+    },
+    {
+      "asset": "USDT",
+      "source": "binance_simple_earn_flexible",
+      "category": "earn",
+      "apy_pct": 4.5,
+      "currency": "USDT",
+      "lockup_days": 0,
+      "risk_level": "low",
+      "notes": "yield de referencia (Q3 2026, atualizavel)"
+    },
+    {
+      "asset": "DAI",
+      "source": "defi_aave_v3",
+      "category": "lending",
+      "apy_pct": 4.5,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "util 75.0% | chain ethereum"
+    },
+    {
+      "asset": "USDC",
+      "source": "binance_simple_earn_flexible",
+      "category": "earn",
+      "apy_pct": 4.2,
+      "currency": "USDC",
+      "lockup_days": 0,
+      "risk_level": "low",
+      "notes": "yield de referencia (Q3 2026, atualizavel)"
+    },
+    {
+      "asset": "ETH",
+      "source": "binance_eth_staking",
+      "category": "staking",
+      "apy_pct": 2.8,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "yield de referencia (Q3 2026, atualizavel)"
+    },
+    {
+      "asset": "LINKUSDT",
+      "source": "binance_funding_arb",
+      "category": "funding",
+      "apy_pct": 2.17,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "cash-and-carry, cenario base"
+    },
+    {
+      "asset": "DOGEUSDT",
+      "source": "binance_funding_arb",
+      "category": "funding",
+      "apy_pct": 1.9,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "cash-and-carry, cenario base"
+    },
+    {
+      "asset": "BTCUSDT",
+      "source": "binance_funding_arb",
+      "category": "funding",
+      "apy_pct": 1.52,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "cash-and-carry, cenario base"
+    },
+    {
+      "asset": "BNB",
+      "source": "binance_bnb_vault",
+      "category": "earn",
+      "apy_pct": 1.5,
+      "currency": "USD",
+      "lockup_days": 0,
+      "risk_level": "medium",
+      "notes": "yield de referencia (Q3 2026, atualizavel)"
+    }
+  ],
+  "risk_free": {
+    "cdi_brl": {
+      "name": "CDI Brasil",
+      "apy_pct": 11.5,
+      "currency": "BRL",
+      "notes": "taxa basica brasileira"
+    },
+    "tbill_usd": {
+      "name": "US T-Bill 3M",
+      "apy_pct": 4.8,
+      "currency": "USD",
+      "notes": "treasury 3 meses"
+    },
+    "usdc_native": {
+      "name": "USDC nativo (Circle)",
+      "apy_pct": 0.0,
+      "currency": "USD",
+      "notes": "stablecoin sem yield"
+    }
+  }
+}

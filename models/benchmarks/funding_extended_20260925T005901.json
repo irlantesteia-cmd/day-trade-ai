@@ -1,0 +1,853 @@
+{
+  "lookback_days": 180,
+  "capital": 10000.0,
+  "cost_scenarios": {
+    "otimista": 0.001,
+    "base": 0.0016,
+    "pessimista": 0.003
+  },
+  "n_symbols": 29,
+  "results": [
+    {
+      "symbol": "BTCUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.003621,
+      "pct_negative": 19.4,
+      "sum_rates_pct": 1.8104,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 80.52,
+          "pnl_pct": 0.8052,
+          "annualized_pct": 1.64
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 74.52,
+          "pnl_pct": 0.7452,
+          "annualized_pct": 1.52
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 60.52,
+          "pnl_pct": 0.6052,
+          "annualized_pct": 1.23
+        }
+      }
+    },
+    {
+      "symbol": "ETHUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002692,
+      "pct_negative": 23.4,
+      "sum_rates_pct": 1.3459,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 57.3,
+          "pnl_pct": 0.573,
+          "annualized_pct": 1.17
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 51.3,
+          "pnl_pct": 0.513,
+          "annualized_pct": 1.04
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 37.3,
+          "pnl_pct": 0.373,
+          "annualized_pct": 0.76
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.001013,
+      "pct_negative": 42.0,
+      "sum_rates_pct": 0.5065,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 15.33,
+          "pnl_pct": 0.1533,
+          "annualized_pct": 0.31
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 9.33,
+          "pnl_pct": 0.0933,
+          "annualized_pct": 0.19
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -4.67,
+          "pnl_pct": -0.0467,
+          "annualized_pct": -0.09
+        }
+      }
+    },
+    {
+      "symbol": "BNBUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.003695,
+      "pct_negative": 0.0,
+      "sum_rates_pct": 1.8474,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 82.37,
+          "pnl_pct": 0.8237,
+          "annualized_pct": 1.68
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 76.37,
+          "pnl_pct": 0.7637,
+          "annualized_pct": 1.55
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 62.37,
+          "pnl_pct": 0.6237,
+          "annualized_pct": 1.27
+        }
+      }
+    },
+    {
+      "symbol": "XRPUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.001069,
+      "pct_negative": 41.8,
+      "sum_rates_pct": 0.5347,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 16.73,
+          "pnl_pct": 0.1673,
+          "annualized_pct": 0.34
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 10.73,
+          "pnl_pct": 0.1073,
+          "annualized_pct": 0.22
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -3.27,
+          "pnl_pct": -0.0327,
+          "annualized_pct": -0.07
+        }
+      }
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.004372,
+      "pct_negative": 21.6,
+      "sum_rates_pct": 2.1861,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 99.31,
+          "pnl_pct": 0.9931,
+          "annualized_pct": 2.02
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 93.31,
+          "pnl_pct": 0.9331,
+          "annualized_pct": 1.9
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 79.31,
+          "pnl_pct": 0.7931,
+          "annualized_pct": 1.61
+        }
+      }
+    },
+    {
+      "symbol": "ADAUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.001851,
+      "pct_negative": 36.2,
+      "sum_rates_pct": 0.9253,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 36.26,
+          "pnl_pct": 0.3626,
+          "annualized_pct": 0.74
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 30.26,
+          "pnl_pct": 0.3026,
+          "annualized_pct": 0.61
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 16.26,
+          "pnl_pct": 0.1626,
+          "annualized_pct": 0.33
+        }
+      }
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002412,
+      "pct_negative": 30.2,
+      "sum_rates_pct": 1.2061,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 50.31,
+          "pnl_pct": 0.5031,
+          "annualized_pct": 1.02
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 44.31,
+          "pnl_pct": 0.4431,
+          "annualized_pct": 0.9
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 30.31,
+          "pnl_pct": 0.3031,
+          "annualized_pct": 0.62
+        }
+      }
+    },
+    {
+      "symbol": "LINKUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.004888,
+      "pct_negative": 15.8,
+      "sum_rates_pct": 2.4439,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 112.19,
+          "pnl_pct": 1.1219,
+          "annualized_pct": 2.29
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 106.19,
+          "pnl_pct": 1.0619,
+          "annualized_pct": 2.17
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 92.19,
+          "pnl_pct": 0.9219,
+          "annualized_pct": 1.88
+        }
+      }
+    },
+    {
+      "symbol": "DOTUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.001839,
+      "pct_negative": 38.0,
+      "sum_rates_pct": -0.9194,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -55.97,
+          "pnl_pct": -0.5597,
+          "annualized_pct": -1.13
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -61.97,
+          "pnl_pct": -0.6197,
+          "annualized_pct": -1.25
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -75.97,
+          "pnl_pct": -0.7597,
+          "annualized_pct": -1.53
+        }
+      }
+    },
+    {
+      "symbol": "LTCUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.003346,
+      "pct_negative": 27.2,
+      "sum_rates_pct": 1.6728,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 73.64,
+          "pnl_pct": 0.7364,
+          "annualized_pct": 1.5
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 67.64,
+          "pnl_pct": 0.6764,
+          "annualized_pct": 1.38
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 53.64,
+          "pnl_pct": 0.5364,
+          "annualized_pct": 1.09
+        }
+      }
+    },
+    {
+      "symbol": "TRXUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.009539,
+      "pct_negative": 56.2,
+      "sum_rates_pct": -4.7693,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -248.47,
+          "pnl_pct": -2.4847,
+          "annualized_pct": -4.97
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -254.47,
+          "pnl_pct": -2.5447,
+          "annualized_pct": -5.09
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -268.47,
+          "pnl_pct": -2.6847,
+          "annualized_pct": -5.37
+        }
+      }
+    },
+    {
+      "symbol": "ATOMUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.004562,
+      "pct_negative": 61.0,
+      "sum_rates_pct": -2.2812,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -124.06,
+          "pnl_pct": -1.2406,
+          "annualized_pct": -2.5
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -130.06,
+          "pnl_pct": -1.3006,
+          "annualized_pct": -2.62
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -144.06,
+          "pnl_pct": -1.4406,
+          "annualized_pct": -2.9
+        }
+      }
+    },
+    {
+      "symbol": "NEARUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.004231,
+      "pct_negative": 25.2,
+      "sum_rates_pct": 2.1156,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 95.78,
+          "pnl_pct": 0.9578,
+          "annualized_pct": 1.95
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 89.78,
+          "pnl_pct": 0.8978,
+          "annualized_pct": 1.83
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 75.78,
+          "pnl_pct": 0.7578,
+          "annualized_pct": 1.54
+        }
+      }
+    },
+    {
+      "symbol": "APTUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.000308,
+      "pct_negative": 42.4,
+      "sum_rates_pct": -0.1538,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -17.69,
+          "pnl_pct": -0.1769,
+          "annualized_pct": -0.36
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -23.69,
+          "pnl_pct": -0.2369,
+          "annualized_pct": -0.48
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -37.69,
+          "pnl_pct": -0.3769,
+          "annualized_pct": -0.76
+        }
+      }
+    },
+    {
+      "symbol": "ARBUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.001196,
+      "pct_negative": 38.8,
+      "sum_rates_pct": 0.5979,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 19.9,
+          "pnl_pct": 0.199,
+          "annualized_pct": 0.4
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 13.9,
+          "pnl_pct": 0.139,
+          "annualized_pct": 0.28
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -0.1,
+          "pnl_pct": -0.001,
+          "annualized_pct": -0.0
+        }
+      }
+    },
+    {
+      "symbol": "OPUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002034,
+      "pct_negative": 33.4,
+      "sum_rates_pct": 1.0169,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 40.85,
+          "pnl_pct": 0.4085,
+          "annualized_pct": 0.83
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 34.85,
+          "pnl_pct": 0.3485,
+          "annualized_pct": 0.71
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 20.85,
+          "pnl_pct": 0.2085,
+          "annualized_pct": 0.42
+        }
+      }
+    },
+    {
+      "symbol": "INJUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.006459,
+      "pct_negative": 61.6,
+      "sum_rates_pct": -3.2297,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -171.48,
+          "pnl_pct": -1.7148,
+          "annualized_pct": -3.45
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -177.48,
+          "pnl_pct": -1.7748,
+          "annualized_pct": -3.57
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -191.48,
+          "pnl_pct": -1.9148,
+          "annualized_pct": -3.84
+        }
+      }
+    },
+    {
+      "symbol": "SUIUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.003345,
+      "pct_negative": 27.8,
+      "sum_rates_pct": 1.6726,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 73.63,
+          "pnl_pct": 0.7363,
+          "annualized_pct": 1.5
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 67.63,
+          "pnl_pct": 0.6763,
+          "annualized_pct": 1.38
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 53.63,
+          "pnl_pct": 0.5363,
+          "annualized_pct": 1.09
+        }
+      }
+    },
+    {
+      "symbol": "TIAUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002774,
+      "pct_negative": 19.4,
+      "sum_rates_pct": 1.3871,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 59.35,
+          "pnl_pct": 0.5935,
+          "annualized_pct": 1.21
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 53.35,
+          "pnl_pct": 0.5335,
+          "annualized_pct": 1.08
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 39.35,
+          "pnl_pct": 0.3935,
+          "annualized_pct": 0.8
+        }
+      }
+    },
+    {
+      "symbol": "FILUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002733,
+      "pct_negative": 29.2,
+      "sum_rates_pct": 1.3665,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 58.33,
+          "pnl_pct": 0.5833,
+          "annualized_pct": 1.19
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 52.33,
+          "pnl_pct": 0.5233,
+          "annualized_pct": 1.06
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 38.33,
+          "pnl_pct": 0.3833,
+          "annualized_pct": 0.78
+        }
+      }
+    },
+    {
+      "symbol": "ETCUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.004041,
+      "pct_negative": 23.4,
+      "sum_rates_pct": 2.0207,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 91.04,
+          "pnl_pct": 0.9104,
+          "annualized_pct": 1.85
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 85.04,
+          "pnl_pct": 0.8504,
+          "annualized_pct": 1.73
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 71.04,
+          "pnl_pct": 0.7104,
+          "annualized_pct": 1.45
+        }
+      }
+    },
+    {
+      "symbol": "HBARUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002971,
+      "pct_negative": 26.0,
+      "sum_rates_pct": 1.4856,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 64.28,
+          "pnl_pct": 0.6428,
+          "annualized_pct": 1.31
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 58.28,
+          "pnl_pct": 0.5828,
+          "annualized_pct": 1.19
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 44.28,
+          "pnl_pct": 0.4428,
+          "annualized_pct": 0.9
+        }
+      }
+    },
+    {
+      "symbol": "ICPUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -7.5e-05,
+      "pct_negative": 40.0,
+      "sum_rates_pct": -0.0373,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -11.86,
+          "pnl_pct": -0.1186,
+          "annualized_pct": -0.24
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -17.86,
+          "pnl_pct": -0.1786,
+          "annualized_pct": -0.36
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -31.86,
+          "pnl_pct": -0.3186,
+          "annualized_pct": -0.65
+        }
+      }
+    },
+    {
+      "symbol": "UNIUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.00507,
+      "pct_negative": 18.0,
+      "sum_rates_pct": 2.535,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 116.75,
+          "pnl_pct": 1.1675,
+          "annualized_pct": 2.38
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 110.75,
+          "pnl_pct": 1.1075,
+          "annualized_pct": 2.26
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 96.75,
+          "pnl_pct": 0.9675,
+          "annualized_pct": 1.97
+        }
+      }
+    },
+    {
+      "symbol": "AAVEUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.002699,
+      "pct_negative": 27.2,
+      "sum_rates_pct": 1.3497,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 57.48,
+          "pnl_pct": 0.5748,
+          "annualized_pct": 1.17
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 51.48,
+          "pnl_pct": 0.5148,
+          "annualized_pct": 1.05
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 37.48,
+          "pnl_pct": 0.3748,
+          "annualized_pct": 0.76
+        }
+      }
+    },
+    {
+      "symbol": "CRVUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.004032,
+      "pct_negative": 24.2,
+      "sum_rates_pct": 2.0158,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 90.79,
+          "pnl_pct": 0.9079,
+          "annualized_pct": 1.85
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 84.79,
+          "pnl_pct": 0.8479,
+          "annualized_pct": 1.73
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 70.79,
+          "pnl_pct": 0.7079,
+          "annualized_pct": 1.44
+        }
+      }
+    },
+    {
+      "symbol": "SNXUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": 0.00168,
+      "pct_negative": 29.2,
+      "sum_rates_pct": 0.84,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": 32.0,
+          "pnl_pct": 0.32,
+          "annualized_pct": 0.65
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": 26.0,
+          "pnl_pct": 0.26,
+          "annualized_pct": 0.53
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": 12.0,
+          "pnl_pct": 0.12,
+          "annualized_pct": 0.24
+        }
+      }
+    },
+    {
+      "symbol": "COMPUSDT",
+      "lookback_days": 180,
+      "n_events": 500,
+      "mean_rate_pct": -0.008633,
+      "pct_negative": 40.2,
+      "sum_rates_pct": -4.3163,
+      "notional_perp": 5000.0,
+      "scenarios": {
+        "otimista": {
+          "cost_pct": 0.1,
+          "pnl_rs": -225.81,
+          "pnl_pct": -2.2581,
+          "annualized_pct": -4.53
+        },
+        "base": {
+          "cost_pct": 0.16,
+          "pnl_rs": -231.81,
+          "pnl_pct": -2.3181,
+          "annualized_pct": -4.64
+        },
+        "pessimista": {
+          "cost_pct": 0.3,
+          "pnl_rs": -245.81,
+          "pnl_pct": -2.4581,
+          "annualized_pct": -4.92
+        }
+      }
+    }
+  ]
+}
