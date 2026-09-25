@@ -1,0 +1,77 @@
+{
+  "lookback_days": 30,
+  "capital": 10000.0,
+  "roundtrip_cost_pct": 0.16,
+  "results": [
+    {
+      "symbol": "BTCUSDT",
+      "lookback_days": 30,
+      "n_funding_events": 90,
+      "mean_rate_pct": 0.00605,
+      "pct_negative": 1.11,
+      "capital_initial": 10000.0,
+      "capital_final": 10022.3,
+      "total_pnl_rs": 22.3,
+      "total_pnl_pct": 0.223,
+      "annualized_pct": 2.75,
+      "max_drawdown_pct": 0.1541,
+      "roundtrip_cost_pct": 0.16
+    },
+    {
+      "symbol": "ETHUSDT",
+      "lookback_days": 30,
+      "n_funding_events": 90,
+      "mean_rate_pct": 0.004296,
+      "pct_negative": 10.0,
+      "capital_initial": 10000.0,
+      "capital_final": 10006.56,
+      "total_pnl_rs": 6.56,
+      "total_pnl_pct": 0.0656,
+      "annualized_pct": 0.8,
+      "max_drawdown_pct": 0.15,
+      "roundtrip_cost_pct": 0.16
+    },
+    {
+      "symbol": "LINKUSDT",
+      "lookback_days": 30,
+      "n_funding_events": 90,
+      "mean_rate_pct": 0.005549,
+      "pct_negative": 12.22,
+      "capital_initial": 10000.0,
+      "capital_final": 10017.8,
+      "total_pnl_rs": 17.8,
+      "total_pnl_pct": 0.178,
+      "annualized_pct": 2.19,
+      "max_drawdown_pct": 0.15,
+      "roundtrip_cost_pct": 0.16
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "lookback_days": 30,
+      "n_funding_events": 90,
+      "mean_rate_pct": 0.006608,
+      "pct_negative": 4.44,
+      "capital_initial": 10000.0,
+      "capital_final": 10027.3,
+      "total_pnl_rs": 27.3,
+      "total_pnl_pct": 0.273,
+      "annualized_pct": 3.37,
+      "max_drawdown_pct": 0.15,
+      "roundtrip_cost_pct": 0.16
+    },
+    {
+      "symbol": "LTCUSDT",
+      "lookback_days": 30,
+      "n_funding_events": 90,
+      "mean_rate_pct": 0.00659,
+      "pct_negative": 4.44,
+      "capital_initial": 10000.0,
+      "capital_final": 10027.15,
+      "total_pnl_rs": 27.15,
+      "total_pnl_pct": 0.2715,
+      "annualized_pct": 3.35,
+      "max_drawdown_pct": 0.15,
+      "roundtrip_cost_pct": 0.16
+    }
+  ]
+}
