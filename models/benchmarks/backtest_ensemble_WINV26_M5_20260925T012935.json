@@ -1,0 +1,77 @@
+{
+  "symbol": "WINV26",
+  "timeframe": "M5",
+  "source": "mt5",
+  "n_candles": 8543,
+  "spread_points": 5.0,
+  "commission": 1.0,
+  "atr_sl": 3.0,
+  "atr_tp": 6.0,
+  "results": {
+    "ENSEMBLE_VOTE": {
+      "total_trades": 553,
+      "pnl_pct": 7.1,
+      "win_rate": 45.93,
+      "pf": 1.05,
+      "dd_pct": 24.89,
+      "sharpe": 1.09,
+      "exits_by_reason": {
+        "take_profit": 24,
+        "opposite_signal": 135,
+        "max_hold": 297,
+        "stop_loss": 97
+      }
+    },
+    "ENSEMBLE_UNANIMOUS": {
+      "total_trades": 0,
+      "pnl_pct": 0.0,
+      "win_rate": 0.0,
+      "pf": 0.0,
+      "dd_pct": 0.0,
+      "sharpe": 0.0,
+      "exits_by_reason": {}
+    },
+    "MA_CROSSOVER": {
+      "total_trades": 1198,
+      "pnl_pct": -6.22,
+      "win_rate": 44.32,
+      "pf": 1.01,
+      "dd_pct": 38.22,
+      "sharpe": 0.13,
+      "exits_by_reason": {
+        "stop_loss": 196,
+        "opposite_signal": 403,
+        "max_hold": 552,
+        "take_profit": 46,
+        "end_of_data": 1
+      }
+    },
+    "RSI_REVERSION": {
+      "total_trades": 531,
+      "pnl_pct": -9.79,
+      "win_rate": 48.21,
+      "pf": 0.98,
+      "dd_pct": 27.48,
+      "sharpe": -0.65,
+      "exits_by_reason": {
+        "stop_loss": 122,
+        "max_hold": 348,
+        "take_profit": 37,
+        "opposite_signal": 24
+      }
+    },
+    "VOLATILITY_BREAKOUT": {
+      "total_trades": 255,
+      "pnl_pct": 14.12,
+      "win_rate": 46.67,
+      "pf": 1.15,
+      "dd_pct": 9.86,
+      "sharpe": 2.44,
+      "exits_by_reason": {
+        "max_hold": 167,
+        "take_profit": 19,
+        "stop_loss": 69
+      }
+    }
+  }
+}
