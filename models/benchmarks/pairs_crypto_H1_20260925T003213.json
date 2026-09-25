@@ -1,0 +1,61 @@
+{
+  "timeframe": "H1",
+  "n_requested": 1000,
+  "n_aligned": 1000,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "ADAUSDT",
+    "DOTUSDT",
+    "LINKUSDT",
+    "AVAXUSDT",
+    "ATOMUSDT",
+    "NEARUSDT"
+  ],
+  "n_pairs_tested": 36,
+  "n_cointegrated": 3,
+  "results": [
+    {
+      "symbol_a": "ETHUSDT",
+      "symbol_b": "SOLUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": -11.333563,
+      "intercept": 2724.909259,
+      "adf_stat": -3.6092,
+      "adf_pvalue": 0.005588,
+      "is_cointegrated": true,
+      "half_life": 27.29,
+      "residual_std": 49.57812,
+      "notes": "corr=0.842 | Engle-Granger"
+    },
+    {
+      "symbol_a": "BTCUSDT",
+      "symbol_b": "SOLUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": -20.895409,
+      "intercept": 65656.241165,
+      "adf_stat": -3.5784,
+      "adf_pvalue": 0.006188,
+      "is_cointegrated": true,
+      "half_life": 28.15,
+      "residual_std": 950.313871,
+      "notes": "corr=0.809 | Engle-Granger"
+    },
+    {
+      "symbol_a": "SOLUSDT",
+      "symbol_b": "LINKUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": -2.272418,
+      "intercept": 94.988774,
+      "adf_stat": -2.9514,
+      "adf_pvalue": 0.039691,
+      "is_cointegrated": true,
+      "half_life": 44.15,
+      "residual_std": 2.371833,
+      "notes": "corr=0.808 | Engle-Granger"
+    }
+  ]
+}

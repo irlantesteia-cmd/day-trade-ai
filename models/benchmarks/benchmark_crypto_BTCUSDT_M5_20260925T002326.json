@@ -1,0 +1,818 @@
+{
+  "symbol": "BTCUSDT",
+  "timeframe": "M5",
+  "source": "binance",
+  "n_candles": 5000,
+  "horizon": 5,
+  "test_window": 100,
+  "strategies": {
+    "MA_CROSSOVER": {
+      "n_predictions_total": 4965,
+      "n_folds": 50,
+      "mean_edge_pp": -9.48,
+      "positive_folds": 7,
+      "folds": [
+        {
+          "start": 0,
+          "n_predictions": 100,
+          "acc": 0.49,
+          "baseline": 0.5,
+          "edge_pp": -1.0,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 100,
+          "n_predictions": 100,
+          "acc": 0.65,
+          "baseline": 0.62,
+          "edge_pp": 3.0,
+          "pos_rate": 0.38
+        },
+        {
+          "start": 200,
+          "n_predictions": 100,
+          "acc": 0.33,
+          "baseline": 0.52,
+          "edge_pp": -19.0,
+          "pos_rate": 0.48
+        },
+        {
+          "start": 300,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.53,
+          "edge_pp": -10.0,
+          "pos_rate": 0.47
+        },
+        {
+          "start": 400,
+          "n_predictions": 100,
+          "acc": 0.46,
+          "baseline": 0.61,
+          "edge_pp": -15.0,
+          "pos_rate": 0.61
+        },
+        {
+          "start": 500,
+          "n_predictions": 100,
+          "acc": 0.51,
+          "baseline": 0.57,
+          "edge_pp": -6.0,
+          "pos_rate": 0.43
+        },
+        {
+          "start": 600,
+          "n_predictions": 100,
+          "acc": 0.47,
+          "baseline": 0.51,
+          "edge_pp": -4.0,
+          "pos_rate": 0.51
+        },
+        {
+          "start": 700,
+          "n_predictions": 100,
+          "acc": 0.53,
+          "baseline": 0.58,
+          "edge_pp": -5.0,
+          "pos_rate": 0.42
+        },
+        {
+          "start": 800,
+          "n_predictions": 100,
+          "acc": 0.46,
+          "baseline": 0.58,
+          "edge_pp": -12.0,
+          "pos_rate": 0.58
+        },
+        {
+          "start": 900,
+          "n_predictions": 100,
+          "acc": 0.51,
+          "baseline": 0.54,
+          "edge_pp": -3.0,
+          "pos_rate": 0.46
+        },
+        {
+          "start": 1000,
+          "n_predictions": 100,
+          "acc": 0.52,
+          "baseline": 0.51,
+          "edge_pp": 1.0,
+          "pos_rate": 0.49
+        },
+        {
+          "start": 1100,
+          "n_predictions": 100,
+          "acc": 0.54,
+          "baseline": 0.6,
+          "edge_pp": -6.0,
+          "pos_rate": 0.4
+        },
+        {
+          "start": 1200,
+          "n_predictions": 100,
+          "acc": 0.53,
+          "baseline": 0.5,
+          "edge_pp": 3.0,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 1300,
+          "n_predictions": 100,
+          "acc": 0.47,
+          "baseline": 0.58,
+          "edge_pp": -11.0,
+          "pos_rate": 0.58
+        },
+        {
+          "start": 1400,
+          "n_predictions": 100,
+          "acc": 0.56,
+          "baseline": 0.63,
+          "edge_pp": -7.0,
+          "pos_rate": 0.37
+        },
+        {
+          "start": 1500,
+          "n_predictions": 100,
+          "acc": 0.44,
+          "baseline": 0.54,
+          "edge_pp": -10.0,
+          "pos_rate": 0.46
+        },
+        {
+          "start": 1600,
+          "n_predictions": 100,
+          "acc": 0.47,
+          "baseline": 0.56,
+          "edge_pp": -9.0,
+          "pos_rate": 0.44
+        },
+        {
+          "start": 1700,
+          "n_predictions": 100,
+          "acc": 0.44,
+          "baseline": 0.61,
+          "edge_pp": -17.0,
+          "pos_rate": 0.61
+        },
+        {
+          "start": 1800,
+          "n_predictions": 100,
+          "acc": 0.46,
+          "baseline": 0.6,
+          "edge_pp": -14.0,
+          "pos_rate": 0.6
+        },
+        {
+          "start": 1900,
+          "n_predictions": 100,
+          "acc": 0.41,
+          "baseline": 0.6,
+          "edge_pp": -19.0,
+          "pos_rate": 0.6
+        },
+        {
+          "start": 2000,
+          "n_predictions": 100,
+          "acc": 0.63,
+          "baseline": 0.66,
+          "edge_pp": -3.0,
+          "pos_rate": 0.34
+        },
+        {
+          "start": 2100,
+          "n_predictions": 100,
+          "acc": 0.52,
+          "baseline": 0.65,
+          "edge_pp": -13.0,
+          "pos_rate": 0.35
+        },
+        {
+          "start": 2200,
+          "n_predictions": 100,
+          "acc": 0.3,
+          "baseline": 0.52,
+          "edge_pp": -22.0,
+          "pos_rate": 0.52
+        },
+        {
+          "start": 2300,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.56,
+          "edge_pp": -13.0,
+          "pos_rate": 0.44
+        },
+        {
+          "start": 2400,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.56,
+          "edge_pp": -13.0,
+          "pos_rate": 0.56
+        },
+        {
+          "start": 2500,
+          "n_predictions": 100,
+          "acc": 0.49,
+          "baseline": 0.5,
+          "edge_pp": -1.0,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 2600,
+          "n_predictions": 100,
+          "acc": 0.41,
+          "baseline": 0.51,
+          "edge_pp": -10.0,
+          "pos_rate": 0.51
+        },
+        {
+          "start": 2700,
+          "n_predictions": 100,
+          "acc": 0.32,
+          "baseline": 0.52,
+          "edge_pp": -20.0,
+          "pos_rate": 0.48
+        },
+        {
+          "start": 2800,
+          "n_predictions": 100,
+          "acc": 0.39,
+          "baseline": 0.55,
+          "edge_pp": -16.0,
+          "pos_rate": 0.45
+        },
+        {
+          "start": 2900,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.6,
+          "edge_pp": -17.0,
+          "pos_rate": 0.6
+        },
+        {
+          "start": 3000,
+          "n_predictions": 100,
+          "acc": 0.47,
+          "baseline": 0.63,
+          "edge_pp": -16.0,
+          "pos_rate": 0.63
+        },
+        {
+          "start": 3100,
+          "n_predictions": 100,
+          "acc": 0.54,
+          "baseline": 0.65,
+          "edge_pp": -11.0,
+          "pos_rate": 0.65
+        },
+        {
+          "start": 3200,
+          "n_predictions": 100,
+          "acc": 0.45,
+          "baseline": 0.52,
+          "edge_pp": -7.0,
+          "pos_rate": 0.52
+        },
+        {
+          "start": 3300,
+          "n_predictions": 100,
+          "acc": 0.51,
+          "baseline": 0.55,
+          "edge_pp": -4.0,
+          "pos_rate": 0.55
+        },
+        {
+          "start": 3400,
+          "n_predictions": 100,
+          "acc": 0.62,
+          "baseline": 0.58,
+          "edge_pp": 4.0,
+          "pos_rate": 0.42
+        },
+        {
+          "start": 3500,
+          "n_predictions": 100,
+          "acc": 0.56,
+          "baseline": 0.53,
+          "edge_pp": 3.0,
+          "pos_rate": 0.47
+        },
+        {
+          "start": 3600,
+          "n_predictions": 100,
+          "acc": 0.35,
+          "baseline": 0.54,
+          "edge_pp": -19.0,
+          "pos_rate": 0.54
+        },
+        {
+          "start": 3700,
+          "n_predictions": 100,
+          "acc": 0.57,
+          "baseline": 0.58,
+          "edge_pp": -1.0,
+          "pos_rate": 0.58
+        },
+        {
+          "start": 3800,
+          "n_predictions": 100,
+          "acc": 0.44,
+          "baseline": 0.53,
+          "edge_pp": -9.0,
+          "pos_rate": 0.53
+        },
+        {
+          "start": 3900,
+          "n_predictions": 100,
+          "acc": 0.53,
+          "baseline": 0.71,
+          "edge_pp": -18.0,
+          "pos_rate": 0.71
+        },
+        {
+          "start": 4000,
+          "n_predictions": 100,
+          "acc": 0.57,
+          "baseline": 0.52,
+          "edge_pp": 5.0,
+          "pos_rate": 0.48
+        },
+        {
+          "start": 4100,
+          "n_predictions": 100,
+          "acc": 0.45,
+          "baseline": 0.66,
+          "edge_pp": -21.0,
+          "pos_rate": 0.34
+        },
+        {
+          "start": 4200,
+          "n_predictions": 100,
+          "acc": 0.44,
+          "baseline": 0.61,
+          "edge_pp": -17.0,
+          "pos_rate": 0.61
+        },
+        {
+          "start": 4300,
+          "n_predictions": 100,
+          "acc": 0.45,
+          "baseline": 0.54,
+          "edge_pp": -9.0,
+          "pos_rate": 0.54
+        },
+        {
+          "start": 4400,
+          "n_predictions": 100,
+          "acc": 0.59,
+          "baseline": 0.59,
+          "edge_pp": -0.0,
+          "pos_rate": 0.41
+        },
+        {
+          "start": 4500,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.52,
+          "edge_pp": -9.0,
+          "pos_rate": 0.48
+        },
+        {
+          "start": 4600,
+          "n_predictions": 100,
+          "acc": 0.58,
+          "baseline": 0.56,
+          "edge_pp": 2.0,
+          "pos_rate": 0.44
+        },
+        {
+          "start": 4700,
+          "n_predictions": 100,
+          "acc": 0.43,
+          "baseline": 0.56,
+          "edge_pp": -13.0,
+          "pos_rate": 0.44
+        },
+        {
+          "start": 4800,
+          "n_predictions": 100,
+          "acc": 0.51,
+          "baseline": 0.65,
+          "edge_pp": -14.0,
+          "pos_rate": 0.65
+        },
+        {
+          "start": 4900,
+          "n_predictions": 65,
+          "acc": 0.2615,
+          "baseline": 0.5692,
+          "edge_pp": -30.77,
+          "pos_rate": 0.5692
+        }
+      ]
+    },
+    "RSI_REVERSION": {
+      "n_predictions_total": 1083,
+      "n_folds": 49,
+      "mean_edge_pp": -3.1,
+      "positive_folds": 17,
+      "folds": [
+        {
+          "start": 0,
+          "n_predictions": 25,
+          "acc": 0.8,
+          "baseline": 0.72,
+          "edge_pp": 8.0,
+          "pos_rate": 0.28
+        },
+        {
+          "start": 100,
+          "n_predictions": 27,
+          "acc": 0.6296,
+          "baseline": 0.5556,
+          "edge_pp": 7.41,
+          "pos_rate": 0.5556
+        },
+        {
+          "start": 200,
+          "n_predictions": 31,
+          "acc": 0.6452,
+          "baseline": 0.5161,
+          "edge_pp": 12.9,
+          "pos_rate": 0.4839
+        },
+        {
+          "start": 300,
+          "n_predictions": 11,
+          "acc": 0.4545,
+          "baseline": 0.6364,
+          "edge_pp": -18.18,
+          "pos_rate": 0.3636
+        },
+        {
+          "start": 400,
+          "n_predictions": 46,
+          "acc": 0.5435,
+          "baseline": 0.6522,
+          "edge_pp": -10.87,
+          "pos_rate": 0.6522
+        },
+        {
+          "start": 500,
+          "n_predictions": 35,
+          "acc": 0.4286,
+          "baseline": 0.6,
+          "edge_pp": -17.14,
+          "pos_rate": 0.6
+        },
+        {
+          "start": 600,
+          "n_predictions": 17,
+          "acc": 0.8235,
+          "baseline": 0.6471,
+          "edge_pp": 17.65,
+          "pos_rate": 0.3529
+        },
+        {
+          "start": 700,
+          "n_predictions": 7,
+          "acc": 0.7143,
+          "baseline": 0.7143,
+          "edge_pp": 0.0,
+          "pos_rate": 0.7143
+        },
+        {
+          "start": 800,
+          "n_predictions": 24,
+          "acc": 0.5417,
+          "baseline": 0.625,
+          "edge_pp": -8.33,
+          "pos_rate": 0.375
+        },
+        {
+          "start": 900,
+          "n_predictions": 25,
+          "acc": 0.52,
+          "baseline": 0.64,
+          "edge_pp": -12.0,
+          "pos_rate": 0.36
+        },
+        {
+          "start": 1000,
+          "n_predictions": 26,
+          "acc": 0.7308,
+          "baseline": 0.6538,
+          "edge_pp": 7.69,
+          "pos_rate": 0.6538
+        },
+        {
+          "start": 1100,
+          "n_predictions": 32,
+          "acc": 0.6562,
+          "baseline": 0.5938,
+          "edge_pp": 6.25,
+          "pos_rate": 0.4062
+        },
+        {
+          "start": 1200,
+          "n_predictions": 12,
+          "acc": 0.4167,
+          "baseline": 0.5,
+          "edge_pp": -8.33,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 1300,
+          "n_predictions": 16,
+          "acc": 0.625,
+          "baseline": 0.625,
+          "edge_pp": 0.0,
+          "pos_rate": 0.625
+        },
+        {
+          "start": 1400,
+          "n_predictions": 21,
+          "acc": 0.4286,
+          "baseline": 0.8571,
+          "edge_pp": -42.86,
+          "pos_rate": 0.1429
+        },
+        {
+          "start": 1500,
+          "n_predictions": 23,
+          "acc": 0.7391,
+          "baseline": 0.6087,
+          "edge_pp": 13.04,
+          "pos_rate": 0.3913
+        },
+        {
+          "start": 1600,
+          "n_predictions": 42,
+          "acc": 0.5238,
+          "baseline": 0.6429,
+          "edge_pp": -11.9,
+          "pos_rate": 0.3571
+        },
+        {
+          "start": 1700,
+          "n_predictions": 33,
+          "acc": 0.4242,
+          "baseline": 0.6364,
+          "edge_pp": -21.21,
+          "pos_rate": 0.3636
+        },
+        {
+          "start": 1800,
+          "n_predictions": 15,
+          "acc": 0.4667,
+          "baseline": 0.6,
+          "edge_pp": -13.33,
+          "pos_rate": 0.6
+        },
+        {
+          "start": 1900,
+          "n_predictions": 8,
+          "acc": 0.75,
+          "baseline": 0.5,
+          "edge_pp": 25.0,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 2000,
+          "n_predictions": 36,
+          "acc": 0.1667,
+          "baseline": 0.8056,
+          "edge_pp": -63.89,
+          "pos_rate": 0.1944
+        },
+        {
+          "start": 2100,
+          "n_predictions": 30,
+          "acc": 0.5333,
+          "baseline": 0.5333,
+          "edge_pp": 0.0,
+          "pos_rate": 0.5333
+        },
+        {
+          "start": 2200,
+          "n_predictions": 14,
+          "acc": 0.8571,
+          "baseline": 0.5714,
+          "edge_pp": 28.57,
+          "pos_rate": 0.5714
+        },
+        {
+          "start": 2300,
+          "n_predictions": 14,
+          "acc": 0.8571,
+          "baseline": 0.5714,
+          "edge_pp": 28.57,
+          "pos_rate": 0.4286
+        },
+        {
+          "start": 2400,
+          "n_predictions": 23,
+          "acc": 0.6087,
+          "baseline": 0.6087,
+          "edge_pp": 0.0,
+          "pos_rate": 0.6087
+        },
+        {
+          "start": 2500,
+          "n_predictions": 16,
+          "acc": 0.625,
+          "baseline": 0.6875,
+          "edge_pp": -6.25,
+          "pos_rate": 0.3125
+        },
+        {
+          "start": 2600,
+          "n_predictions": 28,
+          "acc": 0.3571,
+          "baseline": 0.5357,
+          "edge_pp": -17.86,
+          "pos_rate": 0.4643
+        },
+        {
+          "start": 2700,
+          "n_predictions": 24,
+          "acc": 0.875,
+          "baseline": 0.5417,
+          "edge_pp": 33.33,
+          "pos_rate": 0.4583
+        },
+        {
+          "start": 2800,
+          "n_predictions": 19,
+          "acc": 1.0,
+          "baseline": 0.6316,
+          "edge_pp": 36.84,
+          "pos_rate": 0.3684
+        },
+        {
+          "start": 2900,
+          "n_predictions": 31,
+          "acc": 0.4194,
+          "baseline": 0.5161,
+          "edge_pp": -9.68,
+          "pos_rate": 0.5161
+        },
+        {
+          "start": 3000,
+          "n_predictions": 9,
+          "acc": 0.7778,
+          "baseline": 0.7778,
+          "edge_pp": 0.0,
+          "pos_rate": 0.2222
+        },
+        {
+          "start": 3100,
+          "n_predictions": 18,
+          "acc": 0.2222,
+          "baseline": 0.7778,
+          "edge_pp": -55.56,
+          "pos_rate": 0.7778
+        },
+        {
+          "start": 3200,
+          "n_predictions": 22,
+          "acc": 0.6364,
+          "baseline": 0.5,
+          "edge_pp": 13.64,
+          "pos_rate": 0.5
+        },
+        {
+          "start": 3300,
+          "n_predictions": 13,
+          "acc": 0.5385,
+          "baseline": 0.6154,
+          "edge_pp": -7.69,
+          "pos_rate": 0.3846
+        },
+        {
+          "start": 3400,
+          "n_predictions": 39,
+          "acc": 0.3846,
+          "baseline": 0.5128,
+          "edge_pp": -12.82,
+          "pos_rate": 0.4872
+        },
+        {
+          "start": 3500,
+          "n_predictions": 28,
+          "acc": 0.3571,
+          "baseline": 0.5714,
+          "edge_pp": -21.43,
+          "pos_rate": 0.4286
+        },
+        {
+          "start": 3600,
+          "n_predictions": 15,
+          "acc": 0.8667,
+          "baseline": 0.5333,
+          "edge_pp": 33.33,
+          "pos_rate": 0.4667
+        },
+        {
+          "start": 3700,
+          "n_predictions": 14,
+          "acc": 0.5714,
+          "baseline": 0.5714,
+          "edge_pp": 0.0,
+          "pos_rate": 0.5714
+        },
+        {
+          "start": 3800,
+          "n_predictions": 20,
+          "acc": 0.8,
+          "baseline": 0.75,
+          "edge_pp": 5.0,
+          "pos_rate": 0.25
+        },
+        {
+          "start": 3900,
+          "n_predictions": 50,
+          "acc": 0.4,
+          "baseline": 0.64,
+          "edge_pp": -24.0,
+          "pos_rate": 0.64
+        },
+        {
+          "start": 4000,
+          "n_predictions": 11,
+          "acc": 0.5455,
+          "baseline": 0.6364,
+          "edge_pp": -9.09,
+          "pos_rate": 0.6364
+        },
+        {
+          "start": 4100,
+          "n_predictions": 8,
+          "acc": 0.625,
+          "baseline": 0.625,
+          "edge_pp": 0.0,
+          "pos_rate": 0.625
+        },
+        {
+          "start": 4200,
+          "n_predictions": 10,
+          "acc": 0.9,
+          "baseline": 0.9,
+          "edge_pp": 0.0,
+          "pos_rate": 0.1
+        },
+        {
+          "start": 4400,
+          "n_predictions": 25,
+          "acc": 0.48,
+          "baseline": 0.52,
+          "edge_pp": -4.0,
+          "pos_rate": 0.52
+        },
+        {
+          "start": 4500,
+          "n_predictions": 20,
+          "acc": 0.7,
+          "baseline": 0.65,
+          "edge_pp": 5.0,
+          "pos_rate": 0.65
+        },
+        {
+          "start": 4600,
+          "n_predictions": 12,
+          "acc": 0.6667,
+          "baseline": 0.8333,
+          "edge_pp": -16.67,
+          "pos_rate": 0.1667
+        },
+        {
+          "start": 4700,
+          "n_predictions": 24,
+          "acc": 0.4167,
+          "baseline": 0.7083,
+          "edge_pp": -29.17,
+          "pos_rate": 0.2917
+        },
+        {
+          "start": 4800,
+          "n_predictions": 22,
+          "acc": 0.5909,
+          "baseline": 0.5909,
+          "edge_pp": 0.0,
+          "pos_rate": 0.5909
+        },
+        {
+          "start": 4900,
+          "n_predictions": 12,
+          "acc": 0.6667,
+          "baseline": 0.5833,
+          "edge_pp": 8.33,
+          "pos_rate": 0.5833
+        }
+      ]
+    }
+  }
+}

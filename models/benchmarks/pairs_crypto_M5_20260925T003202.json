@@ -1,0 +1,35 @@
+{
+  "timeframe": "M5",
+  "n_requested": 1000,
+  "n_aligned": 1000,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "ADAUSDT",
+    "DOTUSDT",
+    "LINKUSDT",
+    "AVAXUSDT",
+    "ATOMUSDT",
+    "NEARUSDT"
+  ],
+  "n_pairs_tested": 36,
+  "n_cointegrated": 1,
+  "results": [
+    {
+      "symbol_a": "ADAUSDT",
+      "symbol_b": "LINKUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 0.019833,
+      "intercept": -0.019166,
+      "adf_stat": -3.1533,
+      "adf_pvalue": 0.022854,
+      "is_cointegrated": true,
+      "half_life": 34.9,
+      "residual_std": 0.002144,
+      "notes": "corr=0.711 | Engle-Granger"
+    }
+  ]
+}

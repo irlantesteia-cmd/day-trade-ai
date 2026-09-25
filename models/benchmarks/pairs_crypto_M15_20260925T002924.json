@@ -1,0 +1,113 @@
+{
+  "timeframe": "M15",
+  "n_requested": 1000,
+  "n_aligned": 1000,
+  "min_correlation": 0.7,
+  "adf_threshold": 0.05,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "ADAUSDT",
+    "DOTUSDT",
+    "LINKUSDT",
+    "AVAXUSDT",
+    "ATOMUSDT",
+    "NEARUSDT"
+  ],
+  "n_pairs_tested": 36,
+  "n_cointegrated": 7,
+  "results": [
+    {
+      "symbol_a": "ADAUSDT",
+      "symbol_b": "AVAXUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 0.018178,
+      "intercept": 0.074945,
+      "adf_stat": -3.6117,
+      "adf_pvalue": 0.005541,
+      "is_cointegrated": true,
+      "half_life": 37.85,
+      "residual_std": 0.003979,
+      "notes": "corr=0.765 | Engle-Granger"
+    },
+    {
+      "symbol_a": "ADAUSDT",
+      "symbol_b": "LINKUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 0.0092,
+      "intercept": 0.10373,
+      "adf_stat": -3.498,
+      "adf_pvalue": 0.008039,
+      "is_cointegrated": true,
+      "half_life": 25.04,
+      "residual_std": 0.003229,
+      "notes": "corr=0.708 | Engle-Granger"
+    },
+    {
+      "symbol_a": "ETHUSDT",
+      "symbol_b": "AVAXUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": -3.245732,
+      "intercept": 2516.209539,
+      "adf_stat": -3.4739,
+      "adf_pvalue": 0.008684,
+      "is_cointegrated": true,
+      "half_life": 25.53,
+      "residual_std": 28.724179,
+      "notes": "corr=0.750 | Engle-Granger"
+    },
+    {
+      "symbol_a": "ETHUSDT",
+      "symbol_b": "ADAUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 1.649941,
+      "intercept": 2491.04612,
+      "adf_stat": -3.4422,
+      "adf_pvalue": 0.009602,
+      "is_cointegrated": true,
+      "half_life": 26.02,
+      "residual_std": 28.735487,
+      "notes": "corr=0.769 | Engle-Granger"
+    },
+    {
+      "symbol_a": "ETHUSDT",
+      "symbol_b": "LINKUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 1.768388,
+      "intercept": 2470.222409,
+      "adf_stat": -3.4106,
+      "adf_pvalue": 0.010602,
+      "is_cointegrated": true,
+      "half_life": 26.47,
+      "residual_std": 28.718903,
+      "notes": "corr=0.741 | Engle-Granger"
+    },
+    {
+      "symbol_a": "SOLUSDT",
+      "symbol_b": "LINKUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 2.659193,
+      "intercept": 70.733348,
+      "adf_stat": -3.1711,
+      "adf_pvalue": 0.021719,
+      "is_cointegrated": true,
+      "half_life": 35.57,
+      "residual_std": 1.145262,
+      "notes": "corr=0.735 | Engle-Granger"
+    },
+    {
+      "symbol_a": "ETHUSDT",
+      "symbol_b": "SOLUSDT",
+      "n_obs": 1000,
+      "hedge_ratio": 4.693234,
+      "intercept": 2009.979023,
+      "adf_stat": -2.9971,
+      "adf_pvalue": 0.035162,
+      "is_cointegrated": true,
+      "half_life": 34.99,
+      "residual_std": 27.374771,
+      "notes": "corr=0.864 | Engle-Granger"
+    }
+  ]
+}
